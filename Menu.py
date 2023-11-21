@@ -3,7 +3,7 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 from Configuration import VentanaConfig
 from Multiplayer import VentanaMulti
-from Game import Form
+from niveles import form_niveles
 
 class form(Gtk.Window):
     def __init__(self):
@@ -23,14 +23,14 @@ class form(Gtk.Window):
         vb.pack_start(lbl_fila, True, True, 0)
 
         # Button cargar valor
-        btn_jugar = Gtk.Button.new_with_label("Jugar")
+        btn_jugar = Gtk.Button.new_with_label("Niveles")
         btn_jugar.connect("clicked", self.cargar_juego)
-        hbox2.pack_start(btn_jugar, True, True, 0)
+        hbox1.pack_start(btn_jugar, True, True, 0)
 
         # Button calcular valor
         btn_configuracion = Gtk.Button.new_with_label("Configuracion")
         btn_configuracion.connect("clicked", self.cargar_configuracion)
-        hbox1.pack_start(btn_configuracion, True, True, 0)
+        hbox2.pack_start(btn_configuracion, True, True, 0)
 
         # Button totalizar
         btn_multijugador = Gtk.Button.new_with_label("Multijugador")
@@ -46,7 +46,7 @@ class form(Gtk.Window):
         self.Ventana_Config = None
 
     def cargar_juego(self, widget):
-        self.Ventana_main = Form(self)
+        self.Ventana_main = form_niveles(self)
         self.Ventana_main.show_all()
         self.hide()
 
