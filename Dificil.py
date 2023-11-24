@@ -17,6 +17,9 @@ class Form_dificil(Gtk.Window):
         self.cartas_seleccionadas = []
         self.intentos_exitosos = 0
         self.intentos_fallidos = 0
+
+        # Establecer la posición de la ventana en el centro
+        self.set_position(Gtk.WindowPosition.CENTER)
         
 
         vbox = Gtk.VBox(spacing=2)

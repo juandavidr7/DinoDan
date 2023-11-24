@@ -13,6 +13,9 @@ class form(Gtk.Window):
         vb = Gtk.VBox(spacing=2)
         self.add(vb)
 
+        # Establecer la posición de la ventana en el centro
+        self.set_position(Gtk.WindowPosition.CENTER)
+
         hbox1 = Gtk.Box(spacing=6)
         hbox2 = Gtk.Box(spacing=6)
         hbox3 = Gtk.Box(spacing=6)
