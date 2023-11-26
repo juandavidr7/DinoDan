@@ -15,7 +15,8 @@ class form_niveles(Gtk.Window):
         self.add(vb)
 
         self.form_instance = form_instance
-
+        self.current_report_state = self.form_instance.report_state
+        print("Estado del report", self.current_report_state)
         # Establecer la posición de la ventana en el centro
         self.set_position(Gtk.WindowPosition.CENTER)
 
