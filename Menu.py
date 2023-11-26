@@ -1,29 +1,45 @@
 import gi
 
+
 gi.require_version("Gtk", "3.0")
+gi.require_version("Gst", "1.0")
 
-from gi.repository import Gtk, Gdk
-
+from gi.repository import Gtk, Gst, Gdk
 from Configuration import VentanaConfig
-
 from Multiplayer import VentanaMulti
-
 from niveles import form_niveles
 
+Gst.init(None)
 class form(Gtk.Window):
     def __init__(self):
         super().__init__(title="Memory Dinosaur Game")
         self.set_default_size(300, 400)
         self.set_border_width(10)
+       
 
-        # Establecer la posición de la ventana en el centro
+     
+        self.report_state = True
+        self.music_state = True
+
+        music_file = "back.mpga"
+        self.player = Gst.ElementFactory.make("playbin", "player")
+        self.player.set_property("uri", Gst.filename_to_uri(music_file))
+        if not Gst.uri_protocol_is_valid(music_file):
+            print("Error: El archivo de música no es válido")
+        if self.player.get_state(Gst.CLOCK_TIME_NONE) == Gst.State.NULL:
+            pass
+        else:
+            self.player.set_state(Gst.State.PLAYING)
+
+
+         # Establecer la posición de la ventana en el centro
         self.set_position(Gtk.WindowPosition.CENTER)
 
         overlay = Gtk.Overlay()
         self.add(overlay)
 
         # El fondo
-        fondo = Gtk.Image.new_from_file("img/fondo.jpg")
+        fondo = Gtk.Image.new_from_file("img/fondo.jpeg")
         overlay.add_overlay(fondo)
 
         css_provider = Gtk.CssProvider()
@@ -47,10 +63,13 @@ class form(Gtk.Window):
         vb = Gtk.VBox(spacing=10)
         overlay.add_overlay(vb)
 
+        self.add(vb)
+
         hbox1 = Gtk.Box(spacing=6)
         hbox2 = Gtk.Box(spacing=6)
         hbox3 = Gtk.Box(spacing=6)
 
+      
         # Label fila
         lbl_fila = Gtk.Label()
         lbl_fila.set_text("Dinosaur Memory Game")
@@ -85,6 +104,7 @@ class form(Gtk.Window):
         self.hide()
 
     def cargar_configuracion(self, widget):
+       
         self.Ventana_Config = VentanaConfig(self)
         self.Ventana_Config.show_all()
         self.hide()
@@ -96,6 +116,12 @@ class form(Gtk.Window):
 
     def show_menu(self):
         self.show_all()
+
+    
+
+
+    
+
 
 win = form()
 win.connect("destroy", Gtk.main_quit)
