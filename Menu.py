@@ -1,8 +1,13 @@
 import gi
+
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
+
+from gi.repository import Gtk, Gdk
+
 from Configuration import VentanaConfig
+
 from Multiplayer import VentanaMulti
+
 from niveles import form_niveles
 
 class form(Gtk.Window):
@@ -10,11 +15,37 @@ class form(Gtk.Window):
         super().__init__(title="Memory Dinosaur Game")
         self.set_default_size(300, 400)
         self.set_border_width(10)
-        vb = Gtk.VBox(spacing=2)
-        self.add(vb)
 
         # Establecer la posición de la ventana en el centro
         self.set_position(Gtk.WindowPosition.CENTER)
+
+        overlay = Gtk.Overlay()
+        self.add(overlay)
+
+        # El fondo
+        fondo = Gtk.Image.new_from_file("img/fondo.jpg")
+        overlay.add_overlay(fondo)
+
+        css_provider = Gtk.CssProvider()
+        css_provider.load_from_data(b"""
+            * {
+                color: red;
+            }
+            .btn-jugar:hover {
+                background-color: #2980b9;
+            }
+        """)
+
+        style_context = Gtk.StyleContext()
+        style_context.add_provider_for_screen(
+            Gdk.Screen.get_default(),
+            css_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+
+        # VBox principal
+        vb = Gtk.VBox(spacing=10)
+        overlay.add_overlay(vb)
 
         hbox1 = Gtk.Box(spacing=6)
         hbox2 = Gtk.Box(spacing=6)
@@ -54,7 +85,6 @@ class form(Gtk.Window):
         self.hide()
 
     def cargar_configuracion(self, widget):
-       
         self.Ventana_Config = VentanaConfig(self)
         self.Ventana_Config.show_all()
         self.hide()
@@ -66,7 +96,6 @@ class form(Gtk.Window):
 
     def show_menu(self):
         self.show_all()
-
 
 win = form()
 win.connect("destroy", Gtk.main_quit)
