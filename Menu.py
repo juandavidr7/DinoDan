@@ -21,7 +21,7 @@ class form(Gtk.Window):
         self.report_state = True
         self.music_state = True
 
-        music_file = "back.mpga"
+        music_file = "videoplayback.ma4"
         self.player = Gst.ElementFactory.make("playbin", "player")
         self.player.set_property("uri", Gst.filename_to_uri(music_file))
         if not Gst.uri_protocol_is_valid(music_file):
