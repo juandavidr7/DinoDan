@@ -9,8 +9,6 @@ from Configuration import VentanaConfig
 from Multiplayer import VentanaMulti
 from niveles import form_niveles
 
-
- 
 Gst.init(None)
 class Form(Gtk.Window):
     def __init__(self):

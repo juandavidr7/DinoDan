@@ -9,23 +9,16 @@ from Dificil import Form_dificil
 class form_niveles(Gtk.Window):
     def __init__(self, form_instance):
         super().__init__(title="Niveles de Juego")
-<<<<<<< HEAD
         self.set_default_size(640, 800)
         
-=======
-        self.set_default_size(300, 400)
-        self.set_border_width(10)
-        vb = Gtk.VBox(spacing=2)
-        self.add(vb)
 
         self.form_instance = form_instance
         self.current_report_state = self.form_instance.report_state
         print("Estado del report", self.current_report_state)
->>>>>>> 03eb6c54a8e2df08987cd7b77feff647c553e22b
         # Establecer la posición de la ventana en el centro
         self.set_position(Gtk.WindowPosition.CENTER)
         self.set_resizable(False)
-        self.form_instance = form_instance
+        
 
         # Crear un contenedor de tipo Overlay
         overlay = Gtk.Overlay()
