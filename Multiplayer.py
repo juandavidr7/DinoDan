@@ -102,7 +102,7 @@ class VentanaMulti(Gtk.Window):
         vbox.pack_start(self.lbl_contador, True, True, 0)
 
         btn_seleccionar = Gtk.Button.new_with_label("Seleccionar carta")
-        btn_seleccionar.connect("clicked", self.on_seleccionar_clicked, lbl_imagen, lbl_victoria)
+        btn_seleccionar.connect("clicked", self.on_seleccionar_clicked, lbl_imagen, lbl_victoria, btn_seleccionar)
         vbox.pack_start(btn_seleccionar, True, True, 0)
 
         btn_volver = Gtk.Button.new_with_label("Volver")
@@ -130,53 +130,7 @@ class VentanaMulti(Gtk.Window):
         self.avanzar_tiempo = True
         
     # Esta es la función más perra, aquí se hacen varias cosas
-    def on_seleccionar_clicked(self, button, lbl_imagen, lbl_victoria):
-<<<<<<< HEAD
-        numero_carta = int(self.entry_numero_carta.get_text())
-        self.posibles_parejas.append(numero_carta)
-        
-        if numero_carta in self.parejas_encontradas:
-            lbl_imagen.set_text("Has seleccionado una carta ya encontrada\nIntenta con otra.")
-            # Verificar que el número ingresado en la "Entry" esté entre 1 y 8
-        else:
-            if 1 <= numero_carta <= 8:
-                posicion_carta = numero_carta - 1
-                carta_seleccionada = self.imagenes[posicion_carta]
-                
-                # Acá lo que hace es que va guardando temporalmente la carta seleccionada,
-                # dentro de otro array de cartas seleccionadas para después hacer comparaciones
-                if carta_seleccionada not in self.cartas_seleccionadas:
-                    lbl_imagen.set_text(f"Carta seleccionada: {numero_carta}")
-                    carta_seleccionada.set_from_file(f"img/{(self.cartas_numeros[posicion_carta])}.jpg")
-                    self.cartas_seleccionadas.append(carta_seleccionada)
-
-                    if len(self.cartas_seleccionadas) == 2:
-                        self.validar_parejas(lbl_imagen, numero_carta)
-                        self.ocultar_cartas_despues_delay(2)  # Cambiado a 1 segundo
-                        if self.intentos_exitosos == 4:
-                                lbl_victoria.set_text(f"¡Felicidades! Has encontrado todas las parejas en {self.intentos_exitosos} intentos exitosos, {self.intentos_fallidos} intentos fallidos, con un total de {self.intentos_exitosos + self.intentos_fallidos} intentos.")
-                                self.entry_numero_carta.set_sensitive(False)
-                                self.detener_cronometro(self)
-                                current_report_state = self.form_instance.current_report_state
-                                print(current_report_state)
-                                if current_report_state == True:
-                                    text = f"""
-Resultados de la partida en nivel Fácil:
-Intentos totales: {self.intentos_exitosos + self.intentos_fallidos}
-Intentos fallidos: {self.intentos_fallidos}
-Intentos exitosos: {self.intentos_exitosos}
-Tiempo de solución: {self.tiempo_transcurrido} Segundos
-                                    """
-                                    print(text)
-                                    with open("resultados.txt", "w") as archivo:
-                                        archivo.write(text)
-                                
-                                
-                        
-                else:
-                    lbl_imagen.set_text("Número de carta no válido o ya seleccionada. Inténtalo de nuevo.")
-                    self.intentos_fallidos += 1
-=======
+    def on_seleccionar_clicked(self, button, lbl_imagen, lbl_victoria, btn_seleccionar):
         if self.turno == 1:
             self.lbl_turnos.set_text("Turno para el jugador uno")
             numero_carta = int(self.entry_numero_carta.get_text())
@@ -185,7 +139,6 @@ Tiempo de solución: {self.tiempo_transcurrido} Segundos
             if numero_carta in self.parejas_encontradas_ply1:
                 lbl_imagen.set_text("Has seleccionado una carta ya encontrada\nIntenta con otra.")
                 # Verificar que el número ingresado en la "Entry" esté entre 1 y 8
->>>>>>> 814d5d19ded96c18ecc1eb6298c84fe4b4be23db
             else:
                 if 1 <= numero_carta <= 8:
                     posicion_carta = numero_carta - 1
@@ -195,7 +148,7 @@ Tiempo de solución: {self.tiempo_transcurrido} Segundos
                     # dentro de otro array de cartas seleccionadas para después hacer comparaciones
                     if carta_seleccionada not in self.cartas_seleccionadas_ply1:
                         lbl_imagen.set_text(f"Carta seleccionada: {numero_carta}")
-                        carta_seleccionada.set_from_file(f"img/{(self.cartas_numeros[posicion_carta])}.jpeg")
+                        carta_seleccionada.set_from_file(f"img/{(self.cartas_numeros[posicion_carta])}.jpg")
                         self.cartas_seleccionadas_ply1.append(carta_seleccionada)
 
                         if len(self.cartas_seleccionadas_ply1) == 2:
@@ -206,14 +159,16 @@ Tiempo de solución: {self.tiempo_transcurrido} Segundos
                             self.lbl_turnos.set_text("Turno para el jugador dos")
                             if self.intentos_exitosos == 4:
                                     lbl_victoria.set_text(f"¡Felicidades! Ha ganado el jugador 1 en {self.intentos_exitosos} intentos exitosos, {self.intentos_fallidos} intentos fallidos, con un total de {self.intentos_exitosos + self.intentos_fallidos} intentos.")
-                                  
+                                    self.lbl_turnos.set_text("Fin del juego")
                                     self.entry_numero_carta.set_sensitive(False)
+                                    btn_seleccionar.set_sensitive(False)
                                     self.detener_cronometro(self)
-                                    current_report_state = self.form_instance.current_report_state
+                                    current_report_state = self.form_instance.report_state
                                     print(current_report_state)
                                     if current_report_state == True:
                                         text = f"""
-    Resultados de la partida en nivel Fácil:
+    Resultados de la partida Multijugador:
+    Ganador: Jugador 1
     Intentos totales: {self.intentos_exitosos + self.intentos_fallidos}
     Intentos fallidos: {self.intentos_fallidos}
     Intentos exitosos: {self.intentos_exitosos}
@@ -247,7 +202,7 @@ Tiempo de solución: {self.tiempo_transcurrido} Segundos
                     # dentro de otro array de cartas seleccionadas para después hacer comparaciones
                     if carta_seleccionada not in self.cartas_seleccionadas_ply2:
                         lbl_imagen.set_text(f"Carta seleccionada: {numero_carta}")
-                        carta_seleccionada.set_from_file(f"img/{(self.cartas_numeros[posicion_carta])}.jpeg")
+                        carta_seleccionada.set_from_file(f"img/{(self.cartas_numeros[posicion_carta])}.jpg")
                         self.cartas_seleccionadas_ply2.append(carta_seleccionada)
 
                         if len(self.cartas_seleccionadas_ply2) == 2:
@@ -258,14 +213,17 @@ Tiempo de solución: {self.tiempo_transcurrido} Segundos
                             self.lbl_turnos.set_text("Turno para el jugador uno")
                             if self.intentos_exitosos2 == 4:
                                     lbl_victoria.set_text(f"¡Felicidades! Ha ganado el jugador 2 en {self.intentos_exitosos2} intentos exitosos, {self.intentos_fallidos2} intentos fallidos, con un total de {self.intentos_exitosos2 + self.intentos_fallidos2} intentos.")
-                                   
+                                    self.lbl_turnos.set_text("Fin del juego")
+                                    
                                     self.entry_numero_carta.set_sensitive(False)
+                                    btn_seleccionar.set_sensitive(False)
                                     self.detener_cronometro(self)
                                     current_report_state = self.form_instance.report_state
                                     print(current_report_state)
                                     if current_report_state == True:
                                         text = f"""
-    Resultados de la partida en nivel Fácil:
+    Resultados de la partida en Multijugador:
+    Ganador: Jugador 2
     Intentos totales: {self.intentos_exitosos2 + self.intentos_fallidos2}
     Intentos fallidos: {self.intentos_fallidos2}
     Intentos exitosos: {self.intentos_exitosos2}
@@ -296,7 +254,7 @@ Tiempo de solución: {self.tiempo_transcurrido} Segundos
             carta.set_from_file("img/0.jpg")
             carta.set_sensitive(True)
         for carta in self.imagenes2:
-            carta.set_from_file("img/0.jpeg")
+            carta.set_from_file("img/0.jpg")
             carta.set_sensitive(True)
         
 
@@ -341,26 +299,18 @@ Tiempo de solución: {self.tiempo_transcurrido} Segundos
 
     # Esto es para que las cartas se vuelvan a ocultar, si no se encuentra que sean pareja
     def ocultar_cartas(self):
-<<<<<<< HEAD
-        for imagen in self.cartas_seleccionadas:
-            imagen.set_from_file("img/0.jpg")
-            imagen.set_sensitive(True)
-        self.cartas_seleccionadas = []
-        self.entry_numero_carta.set_text("")
-=======
         if self.turno == 2:
             for imagen in self.cartas_seleccionadas_ply1:
-                imagen.set_from_file("img/0.jpeg")
+                imagen.set_from_file("img/0.jpg")
                 imagen.set_sensitive(True)
             self.cartas_seleccionadas_ply1 = []
             self.entry_numero_carta.set_text("")
         else:
             for imagen2 in self.cartas_seleccionadas_ply2:
-                imagen2.set_from_file("img/0.jpeg")
+                imagen2.set_from_file("img/0.jpg")
                 imagen2.set_sensitive(True)
             self.cartas_seleccionadas_ply2 = []
             self.entry_numero_carta.set_text("")
->>>>>>> 814d5d19ded96c18ecc1eb6298c84fe4b4be23db
 
     def iniciar_cronometro(self, widget):
         GLib.timeout_add(1000, self.actualizar_tiempo)
