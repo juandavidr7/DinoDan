@@ -110,11 +110,25 @@ class Form_medio(Gtk.Window):
                     if len(self.cartas_seleccionadas) == 2:
                         self.validar_parejas(lbl_imagen, lbl_victoria)
                         self.ocultar_cartas_despues_delay(2)
-
+                        current_report_state = self.form_instance.current_report_state
                         if self.intentos_exitosos == 6:
                             lbl_victoria.set_text(f"¡Felicidades! Has encontrado todas las parejas en {self.intentos_exitosos} intentos exitosos, {self.intentos_fallidos} intentos fallidos, con un total de {self.intentos_exitosos + self.intentos_fallidos} intentos.")
                             self.entry_numero_carta.set_sensitive(False)
                             self.detener_cronometro(self)
+
+                            print(current_report_state)
+                            if current_report_state == True:
+                                text = f"""
+Resultados de la partida en nivel Fácil:
+Intentos totales: {self.intentos_exitosos + self.intentos_fallidos}
+Intentos fallidos: {self.intentos_fallidos}
+Intentos exitosos: {self.intentos_exitosos}
+Tiempo de solución: {self.tiempo_transcurrido} Segundos
+                                    """
+                                print(text)
+                                with open("resultados.txt", "w") as archivo:
+                                    archivo.write(text)
+
 
                 else:
                     lbl_imagen.set_text("Número de carta no válido o ya seleccionada. Inténtalo de nuevo.")
@@ -188,5 +202,4 @@ class Form_medio(Gtk.Window):
 
         # Show the form window using the stored reference
         self.form_instance.show_menu()
-
 
