@@ -64,6 +64,9 @@ class Form_medio(Gtk.Window):
         lbl_victoria = Gtk.Label()
         lbl_victoria.set_text("Completa todas las parejas posibles, en el menor tiempo posible")
         vbox.pack_start(lbl_victoria, True, True, 7)
+        
+        self.lbl_contador = Gtk.Label(label="Tiempo: 0 segundos")
+        vbox.pack_start(self.lbl_contador, True, True, 0)
 
         btn_iniciar_juego = Gtk.Button.new_with_label("Iniciar el juego")
         btn_iniciar_juego.connect("clicked", self.on_iniciar_juego, lbl_imagen)
@@ -84,6 +87,7 @@ class Form_medio(Gtk.Window):
     def on_iniciar_juego(self, button, lbl_imagen):
         self.barajar_cartas()
         self.limpiar_cartas(lbl_imagen)
+        self.iniciar_cronometro(self)
         self.cartas_seleccionadas = []
         self.intentos_exitosos = 0
         self.intentos_fallidos = 0
@@ -110,6 +114,7 @@ class Form_medio(Gtk.Window):
                         if self.intentos_exitosos == 6:
                             lbl_victoria.set_text(f"¡Felicidades! Has encontrado todas las parejas en {self.intentos_exitosos} intentos exitosos, {self.intentos_fallidos} intentos fallidos, con un total de {self.intentos_exitosos + self.intentos_fallidos} intentos.")
                             self.entry_numero_carta.set_sensitive(False)
+                            self.detener_cronometro(self)
 
                 else:
                     lbl_imagen.set_text("Número de carta no válido o ya seleccionada. Inténtalo de nuevo.")
@@ -145,6 +150,24 @@ class Form_medio(Gtk.Window):
             imagen.set_sensitive(True)
         self.cartas_seleccionadas = []
         self.entry_numero_carta.set_text("")
+
+    def iniciar_cronometro(self, widget):
+        GLib.timeout_add(1000, self.actualizar_tiempo)
+
+    def actualizar_tiempo(self):
+        if self.avanzar_tiempo:
+            self.tiempo_transcurrido += 1
+            self.actualizar_etiqueta()
+            return True
+        else:
+            return False
+    
+    def detener_cronometro(self, widget):
+        self.avanzar_tiempo = False
+
+    def actualizar_etiqueta(self):
+        self.lbl_contador.set_text(f"Tiempo: {self.tiempo_transcurrido} segundos")
+
 
     def barajar_cartas(self):
         random.shuffle(self.cartas_numeros)
