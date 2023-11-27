@@ -66,6 +66,10 @@ class Form_dificil(Gtk.Window):
         lbl_victoria = Gtk.Label()
         lbl_victoria.set_text("Completa todas las parejas posibles, en el menor tiempo posible")
         vbox.pack_start(lbl_victoria, True, True, 7)
+         
+        self.lbl_contador = Gtk.Label(label="Tiempo: 0 segundos")
+        vbox.pack_start(self.lbl_contador, True, True, 0)
+
 
         btn_iniciar_juego = Gtk.Button.new_with_label("Iniciar el juego")
         btn_iniciar_juego.connect("clicked", self.on_iniciar_juego, lbl_imagen)
