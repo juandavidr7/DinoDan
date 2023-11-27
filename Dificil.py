@@ -90,7 +90,7 @@ class Form_dificil(Gtk.Window):
     def on_iniciar_juego(self, button, lbl_imagen):
         self.barajar_cartas()
         self.limpiar_cartas(lbl_imagen)
-        self-iniciar_cronometro(self)
+        self.iniciar_cronometro(self)
         self.cartas_seleccionadas = []
         self.intentos_exitosos = 0
         self.intentos_fallidos = 0
@@ -118,6 +118,20 @@ class Form_dificil(Gtk.Window):
                         lbl_victoria.set_text(f"¡Felicidades! Has encontrado todas las parejas en {self.intentos_exitosos} intentos exitosos, {self.intentos_fallidos} intentos fallidos, con un total de {self.intentos_exitosos + self.intentos_fallidos} intentos.")
                         self.entry_numero_carta.set_sensitive(False)
                         self.detener_cronometro(self)
+                        current_report_state = self.form_instance.current_report_state
+                        print(current_report_state)
+                        if current_report_state == True:
+                            text = f"""
+Resultados de la partida en nivel Fácil:
+Intentos totales: {self.intentos_exitosos + self.intentos_fallidos}
+Intentos fallidos: {self.intentos_fallidos}
+Intentos exitosos: {self.intentos_exitosos}
+Tiempo de solución: {self.tiempo_transcurrido} Segundos
+                                    """
+                            print(text)
+                            with open("resultados.txt", "w") as archivo:
+                                archivo.write(text)
+
 
             else:
                 lbl_imagen.set_text("Número de carta no válido o ya seleccionada. Inténtalo de nuevo.")
@@ -189,5 +203,4 @@ class Form_dificil(Gtk.Window):
 
         # Show the form window using the stored reference
         self.form_instance.show_menu()
-
 
