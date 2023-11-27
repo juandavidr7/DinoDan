@@ -10,6 +10,7 @@ class Form_dificil(Gtk.Window):
         super().__init__(title="Busca mi pareja")
         self.set_default_size(200, 350)
         self.set_border_width(10)
+        
 
         self.form_instance = form_instance
 

@@ -1,6 +1,6 @@
 import gi
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 
 from Facil import Form_facil
 from Medio import Form_medio
@@ -9,44 +9,55 @@ from Dificil import Form_dificil
 class form_niveles(Gtk.Window):
     def __init__(self, form_instance):
         super().__init__(title="Niveles de Juego")
-        self.set_default_size(300, 400)
-        self.set_border_width(10)
-        vb = Gtk.VBox(spacing=2)
-        self.add(vb)
-
-        self.form_instance = form_instance
-
+        self.set_default_size(640, 800)
+        
         # Establecer la posición de la ventana en el centro
         self.set_position(Gtk.WindowPosition.CENTER)
+        self.set_resizable(False)
+        self.form_instance = form_instance
 
-        hbox1 = Gtk.Box(spacing=6)
-        hbox2 = Gtk.Box(spacing=6)
-        hbox3 = Gtk.Box(spacing=6)
+        # Crear un contenedor de tipo Overlay
+        overlay = Gtk.Overlay()
+        self.add(overlay)
 
-        # Label fila
-        lbl_fila = Gtk.Label()
-        lbl_fila.set_text("Niveles de Juego")
-        vb.pack_start(lbl_fila, True, True, 0)
+        # Crear un widget de imagen y cargar la imagen de fondo
+        image = Gtk.Image()
+        image.set_from_file("img/fondo1.jpg")  # Reemplaza con la ruta de tu imagen
+        overlay.add_overlay(image)
+
+        vb = Gtk.VBox(spacing=2)
+        overlay.add_overlay(vb)
+
+        # VBox para botones
+        buttons_container = Gtk.VBox(spacing=6)
+
 
         # Button cargar valor
         btn_facil = Gtk.Button.new_with_label("Nivel fácil")
         btn_facil.connect("clicked", self.nivel_facil)
-        hbox1.pack_start(btn_facil, True, True, 0)
+        btn_facil.set_size_request(250, 100)
+        btn_facil.set_name("btn-niveles")
+        btn_facil.get_style_context ().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
+        buttons_container.pack_start(btn_facil, False, True, 0)
+        
 
         # Button calcular valor
         btn_medio = Gtk.Button.new_with_label("Nivel Medio")
         btn_medio.connect("clicked", self.nivel_medio)
-        hbox2.pack_start(btn_medio, True, True, 0)
+        buttons_container.pack_start(btn_medio, True, True, 0)
 
         # Button totalizar
         btn_dificil = Gtk.Button.new_with_label("Nivel Dificil")
         btn_dificil.connect("clicked", self.nivel_dificil)
-        hbox3.pack_start(btn_dificil, True, True, 0)
+        buttons_container.pack_start(btn_dificil, True, True, 0)
 
-        # Se cargan los hbox al vbox
-        vb.pack_start(hbox1, True, True, 0)
-        vb.pack_start(hbox2, True, True, 0)
-        vb.pack_start(hbox3, True, True, 0)
+        # Añadir margen hacia abajo a la caja de botones
+        buttons_container.set_margin_top(420)  # Ajusta el valor según tus preferencias
+
+        # Crear un contenedor para centrar los botones en la parte inferior
+        align_bottom = Gtk.Alignment.new(0.5, 1, 0, 0)
+        align_bottom.add(buttons_container)
+        vb.pack_start(align_bottom, False, False, 0)
 
         # Create an attribute to hold the reference to VentanaConfig
         self.Ventana_Config = None
