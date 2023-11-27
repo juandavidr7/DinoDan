@@ -11,12 +11,17 @@ class Form_medio(Gtk.Window):
         self.set_default_size(200, 350)
         self.set_border_width(10)
 
+        self.tiempo_transcurrido = 0
+        self.avanzar_tiempo = False
+
         self.form_instance = form_instance
 
         self.cartas_numeros = list(range(1, 7)) * 2
         self.cartas_seleccionadas = []
         self.intentos_exitosos = 0
         self.intentos_fallidos = 0
+        self.parejas_encontradas = []
+        self.posibles_parejas = []
 
         # Establecer la posición de la ventana en el centro
         self.set_position(Gtk.WindowPosition.CENTER)
@@ -96,64 +101,74 @@ class Form_medio(Gtk.Window):
 
     def on_seleccionar_clicked(self, button, lbl_imagen, lbl_victoria):
         numero_carta = int(self.entry_numero_carta.get_text())
+        self.posibles_parejas.append(numero_carta)
+        
+        if numero_carta in self.parejas_encontradas:
+            lbl_imagen.set_text("Has seleccionado una carta ya encontrada\nIntenta con otra.")
+        else:
 
-        if 1 <= numero_carta <= 12:
-            posicion_carta = numero_carta - 1
-            carta_seleccionada = self.imagenes[posicion_carta]
+            if 1 <= numero_carta <= 12:
+                posicion_carta = numero_carta - 1
+                carta_seleccionada = self.imagenes[posicion_carta]
 
-            if carta_seleccionada not in self.parejas_encontradas:
-                if carta_seleccionada not in self.cartas_seleccionadas:
-                    lbl_imagen.set_text(f"Carta seleccionada: {numero_carta}")
-                    carta_seleccionada.set_from_file(f"img/{(self.cartas_numeros[posicion_carta])}.jpeg")
-                    self.cartas_seleccionadas.append(carta_seleccionada)
+                if carta_seleccionada not in self.parejas_encontradas:
+                    if carta_seleccionada not in self.cartas_seleccionadas:
+                        lbl_imagen.set_text(f"Carta seleccionada: {numero_carta}")
+                        carta_seleccionada.set_from_file(f"img/{(self.cartas_numeros[posicion_carta])}.jpeg")
+                        self.cartas_seleccionadas.append(carta_seleccionada)
 
-                    if len(self.cartas_seleccionadas) == 2:
-                        self.validar_parejas(lbl_imagen, lbl_victoria)
-                        self.ocultar_cartas_despues_delay(2)
-                        current_report_state = self.form_instance.current_report_state
-                        if self.intentos_exitosos == 6:
-                            lbl_victoria.set_text(f"¡Felicidades! Has encontrado todas las parejas en {self.intentos_exitosos} intentos exitosos, {self.intentos_fallidos} intentos fallidos, con un total de {self.intentos_exitosos + self.intentos_fallidos} intentos.")
-                            self.entry_numero_carta.set_sensitive(False)
-                            self.detener_cronometro(self)
+                        if len(self.cartas_seleccionadas) == 2:
+                            self.validar_parejas(lbl_imagen, lbl_victoria)
+                            self.ocultar_cartas_despues_delay(2)
+                            current_report_state = self.form_instance.current_report_state
+                            if self.intentos_exitosos == 6:
+                                lbl_victoria.set_text(f"¡Felicidades! Has encontrado todas las parejas en {self.intentos_exitosos} intentos exitosos, {self.intentos_fallidos} intentos fallidos, con un total de {self.intentos_exitosos + self.intentos_fallidos} intentos.")
+                                self.entry_numero_carta.set_sensitive(False)
+                                self.detener_cronometro(self)
 
-                            print(current_report_state)
-                            if current_report_state == True:
-                                text = f"""
-Resultados de la partida en nivel Fácil:
-Intentos totales: {self.intentos_exitosos + self.intentos_fallidos}
-Intentos fallidos: {self.intentos_fallidos}
-Intentos exitosos: {self.intentos_exitosos}
-Tiempo de solución: {self.tiempo_transcurrido} Segundos
-                                    """
-                                print(text)
-                                with open("resultados.txt", "w") as archivo:
-                                    archivo.write(text)
+                                print(current_report_state)
+                                if current_report_state == True:
+                                    text = f"""
+    Resultados de la partida en nivel Fácil:
+    Intentos totales: {self.intentos_exitosos + self.intentos_fallidos}
+    Intentos fallidos: {self.intentos_fallidos}
+    Intentos exitosos: {self.intentos_exitosos}
+    Tiempo de solución: {self.tiempo_transcurrido} Segundos
+                                        """
+                                    print(text)
+                                    with open("resultados.txt", "w") as archivo:
+                                        archivo.write(text)
 
+
+                    else:
+                        lbl_imagen.set_text("Número de carta no válido o ya seleccionada. Inténtalo de nuevo.")
+                        self.intentos_fallidos += 1
 
                 else:
-                    lbl_imagen.set_text("Número de carta no válido o ya seleccionada. Inténtalo de nuevo.")
-                    self.intentos_fallidos += 1
+                    lbl_imagen.set_text("Esta pareja ya fue encontrada. Inténtalo de nuevo.")
 
             else:
-                lbl_imagen.set_text("Esta pareja ya fue encontrada. Inténtalo de nuevo.")
-
-        else:
-            lbl_imagen.set_text("Número de carta no válido. Inténtalo de nuevo.")
+                lbl_imagen.set_text("Número de carta no válido. Inténtalo de nuevo.")
 
     def validar_parejas(self, lbl_imagen, lbl_victoria):
         print(self.cartas_seleccionadas)
 
         if self.cartas_seleccionadas[0].get_property("file") == self.cartas_seleccionadas[1].get_property("file"):
+            self.parejas_encontradas.append(self.posibles_parejas[0])
+            self.parejas_encontradas.append(self.posibles_parejas[1])
+            print(self.parejas_encontradas)
             lbl_imagen.set_text("¡Encontraste pareja!")
-            self.cartas_seleccionadas[0].set_sensitive(False)  
+            self.cartas_seleccionadas[0].set_sensitive(False)  # Deshabilita las cartas emparejadas
             self.cartas_seleccionadas[1].set_sensitive(False)
             self.cartas_seleccionadas = []
             self.intentos_exitosos += 1
+            self.posibles_parejas = []
 
             
         else:
             lbl_imagen.set_text("¡No es pareja! Intenta con otra carta.")
             self.intentos_fallidos += 1
+            self.posibles_parejas = []
 
     def ocultar_cartas_despues_delay(self, delay):
         GLib.timeout_add(delay * 1000, self.ocultar_cartas)

@@ -11,6 +11,7 @@ class Form_facil(Gtk.Window):
         self.set_border_width(1)
         # Establecer la posición de la ventana en el centro
         self.set_position(Gtk.WindowPosition.CENTER)
+        
         self.tiempo_transcurrido = 0
         self.avanzar_tiempo = False
         self.form_instance = form_instance
