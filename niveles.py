@@ -48,15 +48,28 @@ class form_niveles(Gtk.Window):
         # Button calcular valor
         btn_medio = Gtk.Button.new_with_label("Nivel Medio")
         btn_medio.connect("clicked", self.nivel_medio)
-        buttons_container.pack_start(btn_medio, True, True, 0)
+        btn_medio.set_size_request(250, 100)
+        btn_medio.set_name("btn-niveles")
+        btn_medio.get_style_context ().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
+        buttons_container.pack_start(btn_medio, False, True, 0)
 
         # Button totalizar
         btn_dificil = Gtk.Button.new_with_label("Nivel Dificil")
         btn_dificil.connect("clicked", self.nivel_dificil)
-        buttons_container.pack_start(btn_dificil, True, True, 0)
+        btn_dificil.set_size_request(250, 100)
+        btn_dificil.set_name("btn-niveles")
+        btn_dificil.get_style_context ().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
+        buttons_container.pack_start(btn_dificil, False, True, 0)
+
+        btn_volver = Gtk.Button.new_with_label("Volver")
+        btn_volver.connect("clicked", self.on_cerrar_clicked)
+        btn_volver.set_size_request(90, 50)
+        btn_volver.set_name("btn-niveles")
+        btn_volver.get_style_context ().add_class(Gtk.STYLE_CLASS_INFO)
+        buttons_container.pack_start(btn_volver, False, True, 9)
 
         # Añadir margen hacia abajo a la caja de botones
-        buttons_container.set_margin_top(420)  # Ajusta el valor según tus preferencias
+        buttons_container.set_margin_top(400)  # Ajusta el valor según tus preferencias
 
         # Crear un contenedor para centrar los botones en la parte inferior
         align_bottom = Gtk.Alignment.new(0.5, 1, 0, 0)
@@ -91,7 +104,4 @@ class form_niveles(Gtk.Window):
 
         # Show the form window using the stored reference
         self.form_instance.show_menu()
-
-
-
 
