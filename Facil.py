@@ -11,6 +11,7 @@ class Form_facil(Gtk.Window):
         self.set_border_width(1)
         # Establecer la posición de la ventana en el centro
         self.set_position(Gtk.WindowPosition.CENTER)
+        
         self.tiempo_transcurrido = 0
         self.avanzar_tiempo = False
         self.form_instance = form_instance
@@ -115,6 +116,21 @@ class Form_facil(Gtk.Window):
                                 lbl_victoria.set_text(f"¡Felicidades! Has encontrado todas las parejas en {self.intentos_exitosos} intentos exitosos, {self.intentos_fallidos} intentos fallidos, con un total de {self.intentos_exitosos + self.intentos_fallidos} intentos.")
                                 self.entry_numero_carta.set_sensitive(False)
                                 self.detener_cronometro(self)
+                                current_report_state = self.form_instance.current_report_state
+                                print(current_report_state)
+                                if current_report_state == True:
+                                    text = f"""
+Resultados de la partida en nivel Fácil:
+Intentos totales: {self.intentos_exitosos + self.intentos_fallidos}
+Intentos fallidos: {self.intentos_fallidos}
+Intentos exitosos: {self.intentos_exitosos}
+Tiempo de solución: {self.tiempo_transcurrido} Segundos
+                                    """
+                                    print(text)
+                                    with open("resultados.txt", "w") as archivo:
+                                        archivo.write(text)
+                                
+                                
                         
                 else:
                     lbl_imagen.set_text("Número de carta no válido o ya seleccionada. Inténtalo de nuevo.")

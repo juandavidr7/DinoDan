@@ -1,0 +1,43 @@
+import gi
+import random
+
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk, GLib
+
+class CustomButton(Gtk.Button):
+    def __init__(self):
+        super().__init__()
+        self.connect("enter-event", self.enter_event)
+        self.connect("clicked", self.clicked)
+
+    def enter_event(self, widget, event):
+        scale = Gtk.Scale.new(Gtk.Orientation.HORIZONTAL)
+        scale.set_range(1, 2)
+        scale.set_value(1.5)
+        widget.set_child(scale)
+
+    def clicked(self, widget):
+        def on_timeout(button):
+            x, y = button.get_allocation().x, button.get_allocation().y
+            button.move(x + random.randint(-5, 5), y + random.randint(-5, 5))
+            return True
+
+        GLib.timeout_add(100, on_timeout, widget)
+
+class MyWindow(Gtk.Window):
+    def __init__(self):
+        super().__init__(title="Botón animado")
+        self.set_default_size(200, 100)
+        self.set_border_width(10)
+
+        hbox = Gtk.Box(spacing=6)
+        self.add(hbox)
+
+        button = CustomButton()
+        button.set_label("Botón Animado")
+        hbox.pack_start(button, True, True, 0)
+
+win = MyWindow()
+win.connect("destroy", Gtk.main_quit)
+win.show_all()
+Gtk.main()
