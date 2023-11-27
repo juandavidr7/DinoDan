@@ -44,8 +44,8 @@ class VentanaMulti(Gtk.Window):
         self.imagenes = []
         for i in range(8):
             # Asignación de cada uno de las imagenes a un espacio de la interfaz
-            imagen = Gtk.Image.new_from_file("img/0.jpeg")
-            imagen2 = Gtk.Image.new_from_file("img/0.jpeg")
+            imagen = Gtk.Image.new_from_file("img/0.jpg")
+            imagen2 = Gtk.Image.new_from_file("img/0.jpg")
             imagen.numero = self.cartas_numeros[i]
             imagen2.numero = self.cartas_numeros[i]
             # Esto es pa que quede organizado bien bonito xd
@@ -130,7 +130,7 @@ class VentanaMulti(Gtk.Window):
                 # dentro de otro array de cartas seleccionadas para después hacer comparaciones
                 if carta_seleccionada not in self.cartas_seleccionadas:
                     lbl_imagen.set_text(f"Carta seleccionada: {numero_carta}")
-                    carta_seleccionada.set_from_file(f"img/{(self.cartas_numeros[posicion_carta])}.jpeg")
+                    carta_seleccionada.set_from_file(f"img/{(self.cartas_numeros[posicion_carta])}.jpg")
                     self.cartas_seleccionadas.append(carta_seleccionada)
 
                     if len(self.cartas_seleccionadas) == 2:
@@ -170,7 +170,7 @@ Tiempo de solución: {self.tiempo_transcurrido} Segundos
     # Esto es pa que no se vean las cartas como tal
     def limpiar_cartas(self, lbl_imagen):
         for carta in self.imagenes:
-            carta.set_from_file("img/0.jpeg")
+            carta.set_from_file("img/0.jpg")
             carta.set_sensitive(True)
         lbl_imagen.set_text("Seleccione dos cartas:")
 
@@ -201,7 +201,7 @@ Tiempo de solución: {self.tiempo_transcurrido} Segundos
     # Esto es para que las cartas se vuelvan a ocultar, si no se encuentra que sean pareja
     def ocultar_cartas(self):
         for imagen in self.cartas_seleccionadas:
-            imagen.set_from_file("img/0.jpeg")
+            imagen.set_from_file("img/0.jpg")
             imagen.set_sensitive(True)
         self.cartas_seleccionadas = []
         self.entry_numero_carta.set_text("")

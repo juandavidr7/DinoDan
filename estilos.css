@@ -1,15 +1,33 @@
 
-#btn-menu:hover {
+button:hover {
     color: white;
     border: 1px solid white;
-    background-color: black;
+    
 }
 
-#btn-menu
+button
 {
     color:white;
     border: none;
 }
+
+.titulo{
+    color: white;
+    font-size: 18px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+}
+
+
+.informacion{
+    color: white;
+    font-weight: bold;
+}
+
+.btn-niveles{
+    color:black
+}
+
 
 
 

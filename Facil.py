@@ -7,8 +7,8 @@ gi.require_version("Gtk", "3.0")
 class Form_facil(Gtk.Window):
     def __init__(self, form_instance):
         super().__init__(title="Busca mi pareja")
-        self.set_default_size(50, 50)
-        self.set_border_width(1)
+
+        self.set_default_size(640, 800)
         # Establecer la posición de la ventana en el centro
         self.set_position(Gtk.WindowPosition.CENTER)
         
@@ -21,22 +21,40 @@ class Form_facil(Gtk.Window):
         self.parejas_encontradas = []
         self.posibles_parejas = []
 
+         # Crear un contenedor de tipo Overlay
+        overlay = Gtk.Overlay()
+        self.add(overlay)
+
+        # Crear un widget de imagen y cargar la imagen de fondo
+        image = Gtk.Image()
+        image.set_from_file("img/fondo_facil.jpg")  # Reemplaza con la ruta de tu imagen
+        overlay.add_overlay(image)
+
         vbox = Gtk.VBox(spacing=2)
-        self.add(vbox)
+        overlay.add_overlay(vbox)
 
         hbox1 = Gtk.Box(spacing=6)
         hbox2 = Gtk.Box(spacing=6)
         hbox3 = Gtk.Box(spacing=6)
+        hbox4 = Gtk.Box(spacing=6)
+        hbox5 = Gtk.Box(spacing=6)
+        hbox6 = Gtk.Box(spacing=6)
+        
+
+        lbl_victoria = Gtk.Label()
+        lbl_victoria.set_text("Completa todas las parejas, en el menor tiempo posible")
+        lbl_victoria.get_style_context().add_class("titulo")
+        vbox.pack_start(lbl_victoria, True, True, 7)
 
         self.entry_numero_carta = Gtk.Entry()
         self.entry_numero_carta.set_text("")
-        hbox3.pack_start(self.entry_numero_carta, True, True, 0)
+        hbox3.pack_start(self.entry_numero_carta, True, False, 0)
 
         # Aquí comienza la creación de las imagenes 
         self.imagenes = []
         for i in range(8):
             # Asignación de cada uno de las imagenes a un espacio de la interfaz
-            imagen = Gtk.Image.new_from_file("img/0.jpeg")
+            imagen = Gtk.Image.new_from_file("img/0.jpg")
             imagen.numero = self.cartas_numeros[i]
             # Esto es pa que quede organizado bien bonito xd
             if i < 4:
@@ -50,36 +68,58 @@ class Form_facil(Gtk.Window):
         vbox.pack_start(hbox1, True, True, 0)
         vbox.pack_start(hbox2, True, True, 0)
         vbox.pack_start(hbox3, True, True, 0)
+        vbox.pack_start(hbox4, True, True, 0)
 
         lbl_imagen = Gtk.Label()
-        lbl_imagen.set_text("Pulse en <<Iniciar Juego>> para comenzar")
-        vbox.pack_start(lbl_imagen, True, True, 7)
-        
-        lbl_victoria = Gtk.Label()
-        lbl_victoria.set_text("Completa todas las parejas posibles, en el menor tiempo posible")
-        vbox.pack_start(lbl_victoria, True, True, 7)
+        lbl_imagen.get_style_context ().add_class("informacion")
+        hbox4.pack_start(lbl_imagen, True, True, 3)
 
         self.lbl_contador = Gtk.Label(label="Tiempo: 0 segundos")
-        vbox.pack_start(self.lbl_contador, True, True, 0)
+        self.lbl_contador.get_style_context ().add_class("informacion")
+        hbox4.pack_start(self.lbl_contador, True, True, 0)
 
-        btn_iniciar_juego = Gtk.Button.new_with_label("Iniciar el juego")
-        btn_iniciar_juego.connect("clicked", self.on_iniciar_juego, lbl_imagen)
-        vbox.pack_start(btn_iniciar_juego, True, True, 0)
+        self.btn_iniciar_juego = Gtk.Button.new_with_label("Jugar de nuevo")
+        self.btn_iniciar_juego.connect("clicked", self.on_iniciar_juego, lbl_imagen, lbl_victoria)
+        self.btn_iniciar_juego.set_size_request(250, 100)
+        self.btn_iniciar_juego.get_style_context ().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
+        hbox5.pack_start(self.btn_iniciar_juego, False, True, 0)
+        
 
         btn_seleccionar = Gtk.Button.new_with_label("Seleccionar carta")
         btn_seleccionar.connect("clicked", self.on_seleccionar_clicked, lbl_imagen, lbl_victoria)
-        vbox.pack_start(btn_seleccionar, True, True, 0)
+        btn_seleccionar.set_size_request(250, 100)
+        btn_seleccionar.get_style_context ().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
+        hbox5.pack_start(btn_seleccionar, False, True, 0)
 
         btn_volver = Gtk.Button.new_with_label("Volver")
         btn_volver.connect("clicked", self.on_cerrar_clicked)
-        vbox.pack_start(btn_volver, True, True, 0)
+        btn_volver.set_size_request(250, 100)
+        btn_volver.get_style_context ().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
+        hbox6.pack_start(btn_volver, False, True, 0)
         
         btn_cerrar = Gtk.Button.new_with_label("Cerrar")
         btn_cerrar.connect("clicked", self.on_close_clicked)
-        vbox.pack_start(btn_cerrar, True, True, 0)
+        btn_cerrar.set_size_request(250, 100)
+        btn_cerrar.get_style_context ().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
+        hbox6.pack_start(btn_cerrar, False, True, 0)
+
+        align_bottom = Gtk.Alignment.new(0.5, 0.5, 0, 0)
+        align_bottom.add(hbox5)
+        vbox.pack_start(align_bottom, False, False, 8)
+
+        align_bottom2 = Gtk.Alignment.new(0.5, 1, 0, 0)
+        align_bottom2.add(hbox6)
+        vbox.pack_start(align_bottom2, False, False, 8)
+
+        self.on_iniciar_juego(None, lbl_imagen, lbl_victoria)
+        
 
     # Función para llamar a las funciones principales e inicie el juego
-    def on_iniciar_juego(self, button, lbl_imagen):
+    def on_iniciar_juego(self, button, lbl_imagen, lbl_victoria):
+        lbl_victoria.set_text("Completa todas las parejas, en el menor tiempo posible")
+        self.entry_numero_carta.show()
+        self.btn_iniciar_juego.set_sensitive(False)
+        self.tiempo_transcurrido = 0
         self.iniciar_cronometro(self)
         self.barajar_cartas()
         self.limpiar_cartas(lbl_imagen)
@@ -87,8 +127,8 @@ class Form_facil(Gtk.Window):
         self.intentos_exitosos = 0
         self.intentos_fallidos = 0
         self.avanzar_tiempo = True
-        
-        lbl_imagen.set_text("Seleccione dos cartas: Intentos: 0")
+        lbl_imagen.set_text("Seleccione dos cartas:")
+
     # Esta es la función más perra, aquí se hacen varias cosas
     def on_seleccionar_clicked(self, button, lbl_imagen, lbl_victoria):
         numero_carta = int(self.entry_numero_carta.get_text())
@@ -106,16 +146,19 @@ class Form_facil(Gtk.Window):
                 # dentro de otro array de cartas seleccionadas para después hacer comparaciones
                 if carta_seleccionada not in self.cartas_seleccionadas:
                     lbl_imagen.set_text(f"Carta seleccionada: {numero_carta}")
-                    carta_seleccionada.set_from_file(f"img/{(self.cartas_numeros[posicion_carta])}.jpeg")
+                    carta_seleccionada.set_from_file(f"img/{(self.cartas_numeros[posicion_carta])}.jpg")
                     self.cartas_seleccionadas.append(carta_seleccionada)
 
                     if len(self.cartas_seleccionadas) == 2:
                         self.validar_parejas(lbl_imagen, numero_carta)
                         self.ocultar_cartas_despues_delay(2)  # Cambiado a 1 segundo
                         if self.intentos_exitosos == 4:
-                                lbl_victoria.set_text(f"¡Felicidades! Has encontrado todas las parejas en {self.intentos_exitosos} intentos exitosos, {self.intentos_fallidos} intentos fallidos, con un total de {self.intentos_exitosos + self.intentos_fallidos} intentos.")
-                                self.entry_numero_carta.set_sensitive(False)
+                                lbl_victoria.set_text(f"¡Felicidades! Has encontrado todas las parejas!")
+                                lbl_imagen.set_text(f"{self.intentos_exitosos} intentos exitosos \n{self.intentos_fallidos} intentos fallidos  \n{self.intentos_exitosos + self.intentos_fallidos} Total de intentos")
+                                self.btn_iniciar_juego.set_sensitive(True)
                                 self.detener_cronometro(self)
+                                self.entry_numero_carta.hide()
+                                
                                 current_report_state = self.form_instance.current_report_state
                                 print(current_report_state)
                                 if current_report_state == True:
@@ -128,10 +171,7 @@ Tiempo de solución: {self.tiempo_transcurrido} Segundos
                                     """
                                     print(text)
                                     with open("resultados.txt", "w") as archivo:
-                                        archivo.write(text)
-                                
-                                
-                        
+                                        archivo.write(text)    
                 else:
                     lbl_imagen.set_text("Número de carta no válido o ya seleccionada. Inténtalo de nuevo.")
                     self.intentos_fallidos += 1
@@ -146,7 +186,7 @@ Tiempo de solución: {self.tiempo_transcurrido} Segundos
     # Esto es pa que no se vean las cartas como tal
     def limpiar_cartas(self, lbl_imagen):
         for carta in self.imagenes:
-            carta.set_from_file("img/0.jpeg")
+            carta.set_from_file("img/0.jpg")
             carta.set_sensitive(True)
         lbl_imagen.set_text("Seleccione dos cartas:")
 
@@ -177,13 +217,15 @@ Tiempo de solución: {self.tiempo_transcurrido} Segundos
     # Esto es para que las cartas se vuelvan a ocultar, si no se encuentra que sean pareja
     def ocultar_cartas(self):
         for imagen in self.cartas_seleccionadas:
-            imagen.set_from_file("img/0.jpeg")
+            imagen.set_from_file("img/0.jpg")
             imagen.set_sensitive(True)
         self.cartas_seleccionadas = []
         self.entry_numero_carta.set_text("")
 
     def iniciar_cronometro(self, widget):
+        self.tiempo_transcurrido = 0
         GLib.timeout_add(1000, self.actualizar_tiempo)
+        
 
     def actualizar_tiempo(self):
         if self.avanzar_tiempo:
@@ -197,7 +239,7 @@ Tiempo de solución: {self.tiempo_transcurrido} Segundos
         self.avanzar_tiempo = False
 
     def actualizar_etiqueta(self):
-        self.lbl_contador.set_text(f"Tiempo: {self.tiempo_transcurrido} segundos")
+        self.lbl_contador.set_text(f"Tiempo: {self.tiempo_transcurrido-1} segundos")
 
     def on_cerrar_clicked(self, widget):
         # Destroy the current window

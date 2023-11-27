@@ -40,7 +40,6 @@ class form_niveles(Gtk.Window):
         btn_facil = Gtk.Button.new_with_label("Nivel fácil")
         btn_facil.connect("clicked", self.nivel_facil)
         btn_facil.set_size_request(250, 100)
-        btn_facil.set_name("btn-niveles")
         btn_facil.get_style_context ().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
         buttons_container.pack_start(btn_facil, False, True, 0)
         
@@ -49,7 +48,6 @@ class form_niveles(Gtk.Window):
         btn_medio = Gtk.Button.new_with_label("Nivel Medio")
         btn_medio.connect("clicked", self.nivel_medio)
         btn_medio.set_size_request(250, 100)
-        btn_medio.set_name("btn-niveles")
         btn_medio.get_style_context ().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
         buttons_container.pack_start(btn_medio, False, True, 0)
 
@@ -57,7 +55,6 @@ class form_niveles(Gtk.Window):
         btn_dificil = Gtk.Button.new_with_label("Nivel Dificil")
         btn_dificil.connect("clicked", self.nivel_dificil)
         btn_dificil.set_size_request(250, 100)
-        btn_dificil.set_name("btn-niveles")
         btn_dificil.get_style_context ().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
         buttons_container.pack_start(btn_dificil, False, True, 0)
 
@@ -65,7 +62,7 @@ class form_niveles(Gtk.Window):
         btn_volver.connect("clicked", self.on_cerrar_clicked)
         btn_volver.set_size_request(90, 50)
         btn_volver.set_name("btn-niveles")
-        btn_volver.get_style_context ().add_class(Gtk.STYLE_CLASS_INFO)
+        btn_volver.get_style_context ().add_class("btn-niveles")
         buttons_container.pack_start(btn_volver, False, True, 9)
 
         # Añadir margen hacia abajo a la caja de botones
@@ -104,4 +101,5 @@ class form_niveles(Gtk.Window):
 
         # Show the form window using the stored reference
         self.form_instance.show_menu()
+
 

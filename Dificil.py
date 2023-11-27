@@ -43,7 +43,7 @@ class Form_dificil(Gtk.Window):
         self.imagenes = []
 
         for i in range(16):
-            imagen = Gtk.Image.new_from_file("img/0.jpeg")
+            imagen = Gtk.Image.new_from_file("img/0.jpg")
             imagen.numero = self.cartas_numeros[i]
 
             if i < 4:
@@ -91,10 +91,13 @@ class Form_dificil(Gtk.Window):
         btn_cerrar.connect("clicked", self.on_close_clicked)
         vbox.pack_start(btn_cerrar, True, True, 0)
 
+        self.on_iniciar_juego(None, lbl_imagen)
+        self.iniciar_cronometro(self)
+
     def on_iniciar_juego(self, button, lbl_imagen):
+        self.tiempo_transcurrido = 0
         self.barajar_cartas()
         self.limpiar_cartas(lbl_imagen)
-        self.iniciar_cronometro(self)
         self.cartas_seleccionadas = []
         self.intentos_exitosos = 0
         self.intentos_fallidos = 0
@@ -117,7 +120,7 @@ class Form_dificil(Gtk.Window):
                 
                 if carta_seleccionada not in self.cartas_seleccionadas:
                     lbl_imagen.set_text(f"Carta seleccionada: {numero_carta}")
-                    carta_seleccionada.set_from_file(f"img/{(self.cartas_numeros[posicion_carta])}.jpeg")
+                    carta_seleccionada.set_from_file(f"img/{(self.cartas_numeros[posicion_carta])}.jpg")
                     self.cartas_seleccionadas.append(carta_seleccionada)
 
                     if len(self.cartas_seleccionadas) == 2:
@@ -164,8 +167,6 @@ class Form_dificil(Gtk.Window):
             self.cartas_seleccionadas = []
             self.intentos_exitosos += 1
             self.posibles_parejas = []
-
-            
         else:
             lbl_imagen.set_text("¡No es pareja! Intenta con otra carta.")
             self.intentos_fallidos += 1
@@ -176,7 +177,7 @@ class Form_dificil(Gtk.Window):
 
     def ocultar_cartas(self):
         for imagen in self.cartas_seleccionadas:
-            imagen.set_from_file("img/0.jpeg")
+            imagen.set_from_file("img/0.jpg")
             imagen.set_sensitive(True)
         self.cartas_seleccionadas = []
         self.entry_numero_carta.set_text("")
@@ -196,16 +197,14 @@ class Form_dificil(Gtk.Window):
         self.avanzar_tiempo = False
 
     def actualizar_etiqueta(self):
-        self.lbl_contador.set_text(f"Tiempo: {self.tiempo_transcurrido} segundos")
-
-
+        self.lbl_contador.set_text(f"Tiempo: {self.tiempo_transcurrido-1} segundos")
     def barajar_cartas(self):
         random.shuffle(self.cartas_numeros)
         print(self.cartas_numeros)
 
     def limpiar_cartas(self, lbl_imagen):
         for carta in self.imagenes:
-            carta.set_from_file("img/0.jpeg")
+            carta.set_from_file("img/0.jpg")
             carta.set_sensitive(True)
         lbl_imagen.set_text(f"Seleccione dos cartas: Intentos: {self.intentos_exitosos + self.intentos_fallidos}")
 

@@ -1,0 +1,7 @@
+
+Resultados de la partida en nivel Fácil:
+Intentos totales: 4
+Intentos fallidos: 0
+Intentos exitosos: 4
+Tiempo de solución: 55 Segundos
+                                    
