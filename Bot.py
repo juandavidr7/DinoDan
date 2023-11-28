@@ -14,6 +14,7 @@ class VentanaBot(Gtk.Window):
         self.tiempo_transcurrido = 0
         self.avanzar_tiempo = False
         self.form_instance = form_instance
+        self.player_name1 = self.form_instance.player_name1
         
 
         self.intentos_exitosos2 = 0
@@ -91,7 +92,7 @@ class VentanaBot(Gtk.Window):
 
         # Todo esto es pura creación de botones, vinculación, asociación con las funciones
         lbl_ply1 = Gtk.Label()
-        lbl_ply1.set_text("Jugador 1")
+        lbl_ply1.set_text(self.player_name1)
         lbl_ply1.get_style_context ().add_class("player1")
         lbl_ply2= Gtk.Label()
         lbl_ply2.set_text("Maquina")
@@ -223,7 +224,7 @@ class VentanaBot(Gtk.Window):
                                     if current_report_state == True:
                                         text = f"""
     Resultados de la partida Multijugador:
-    Ganador: Jugador 1
+    Ganador: {self.player_name1}
     Intentos totales: {self.intentos_exitosos + self.intentos_fallidos}
     Intentos fallidos: {self.intentos_fallidos}
     Intentos exitosos: {self.intentos_exitosos}
@@ -276,7 +277,7 @@ class VentanaBot(Gtk.Window):
                             
                 self.validar_parejas(lbl_imagen, play1)
                 
-                self.lbl_turnos.set_text("Turno para el jugador uno")
+                self.lbl_turnos.set_text(f"Turno para {self.player_name1}")
                 if self.intentos_exitosos2 == 4:
                         lbl_victoria.set_text(f"¡Felicidades! Ha ganado el jugador 1")
                         lbl_imagen.set_text(f"{self.intentos_exitosos} intentos exitosos \n{self.intentos_fallidos} intentos fallidos  \n{self.intentos_exitosos + self.intentos_fallidos} Total de intentos")
