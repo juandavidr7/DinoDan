@@ -1,3 +1,6 @@
+#Juan David Rincón Lopez- juan.rincon.lopez@correounivalle.edu.co
+#David Elian Taborda - elian.taborda@correounivalle.edu.co
+#Libardo Alejandro Quintero Gómez - quintero.libardo@correounivalle.edu.co
 import gi
 
 
