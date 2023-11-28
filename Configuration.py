@@ -6,7 +6,7 @@ from gi.repository import Gtk, Gst, Gdk
 
 class VentanaConfig(Gtk.Window):
     def __init__(self, form_instance):
-        Gtk.Window.__init__(self, title="Nueva Partida")
+        Gtk.Window.__init__(self, title="Configuración")
         self.set_default_size(200, 100)
         self.set_border_width(10) 
 
@@ -17,6 +17,7 @@ class VentanaConfig(Gtk.Window):
         current_report_state = self.form_instance.report_state
 
         print(self.form_instance.music_state)
+        self.set_position(Gtk.WindowPosition.CENTER)
 
 
         vb = Gtk.VBox(spacing=3)
@@ -50,6 +51,8 @@ class VentanaConfig(Gtk.Window):
 
         boton_nueva_ventana = Gtk.Button(label="Volver")
         boton_nueva_ventana.connect("clicked", self.on_cerrar_clicked)
+        boton_nueva_ventana.set_name("btn-menu")
+        boton_nueva_ventana.get_style_context ().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
 
         hbox1.pack_start(boton_nueva_ventana, True, True, 0)
 

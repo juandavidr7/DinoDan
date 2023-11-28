@@ -6,8 +6,8 @@ gi.require_version("Gst", "1.0")
 
 from gi.repository import Gtk, Gst, Gdk
 from Configuration import VentanaConfig
-from Multiplayer import VentanaMulti
 from niveles import form_niveles
+from MultiSel import form_multi
 
 Gst.init(None)
 class Form(Gtk.Window):
@@ -98,7 +98,7 @@ class Form(Gtk.Window):
         self.hide()
 
     def jugar_multijugador(self, widget):
-        self.Ventana_multi = VentanaMulti(self)
+        self.Ventana_multi = form_multi(self)
         self.Ventana_multi.show_all()
         self.hide()
 

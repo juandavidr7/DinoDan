@@ -60,7 +60,7 @@ class form_multi(Gtk.Window):
         btn_volver.connect("clicked", self.on_cerrar_clicked)
         btn_volver.set_size_request(90, 50)
         btn_volver.set_name("btn-niveles")
-        btn_volver.get_style_context ().add_class(Gtk.STYLE_CLASS_INFO)
+        btn_volver.get_style_context ().add_class("btn-niveles")
         buttons_container.pack_start(btn_volver, False, True, 9)
 
         # Añadir margen hacia abajo a la caja de botones
