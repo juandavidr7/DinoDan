@@ -505,6 +505,118 @@ Procedimiento CrearInstanciaFormDificil():
 
 # Llamada al procedimiento para crear la instancia de Form_dificil
 CrearInstanciaFormDificil()
+
+
+
+
 Pseudocodigo Multiplayer.py
+Clase VentanaMulti:
+    Método __init__(self, form_instance):
+        Crear ventana con título "Busca mi pareja" y tamaño 1200x800
+        Configurar la posición de la ventana al centro
+        Inicializar variables para el juego (tiempo, turnos, cartas, etc.)
+        Crear contenedor Overlay y agregar imagen de fondo
+        Crear cajas y contenedores para organizar la interfaz gráfica
+
+        Crear elementos de interfaz: etiquetas, botones, entradas, etc.
+        Vincular botones a sus funciones correspondientes
+        Mostrar la ventana de juego
+
+        Llamar al método on_iniciar_juego() para empezar el juego
+
+    Método on_iniciar_juego(self, button, lbl_imagen, lbl_victoria):
+        Configurar interfaz para un nuevo juego
+        Barajar las cartas para ambos jugadores
+        Limpiar las cartas de la interfaz
+        Restablecer variables del juego
+        Iniciar el cronómetro
+
+    Método on_seleccionar_clicked(self, button, lbl_imagen, lbl_victoria, btn_seleccionar):
+        Si turno es 1:
+            Obtener número de carta ingresado por jugador uno
+            Agregar el número a la lista de posibles parejas para jugador uno
+
+            Si el número de carta ya ha sido encontrado:
+                Mostrar mensaje: "Has seleccionado una carta ya encontrada. Intenta con otra."
+            Sino:
+                Si el número de carta está entre 1 y 8:
+                    Obtener la posición de la carta seleccionada
+                    Mostrar la carta seleccionada en la interfaz gráfica
+                    Agregar la carta seleccionada a la lista de cartas seleccionadas para jugador uno
+
+                    Si se han seleccionado dos cartas:
+                        Validar si forman una pareja
+                        Ocultar las cartas después de un breve retraso
+                        Cambiar al turno del jugador dos
+                        Actualizar mensaje en la interfaz
+
+                Sino:
+                    Mostrar mensaje: "Número de carta no válido. Inténtalo de nuevo."
+
+        Sino:
+            Obtener número de carta ingresado por jugador dos
+            (Realizar acciones similares a las realizadas para el jugador uno pero aplicadas al jugador dos)
+
+    Método barajar_cartas_ply1(self):
+        Barajar aleatoriamente las cartas para el jugador 1
+
+    Método barajar_cartas_ply2(self):
+        Barajar aleatoriamente las cartas para el jugador 2
+
+    Método limpiar_cartas(self):
+        Restablecer todas las cartas de la interfaz a su estado inicial
+
+    Método validar_parejas(self, lbl_imagen, numero_carta):
+        Si es el turno del jugador uno:
+            Si las cartas seleccionadas forman una pareja válida:
+                Agregar las cartas a la lista de parejas encontradas para jugador uno
+                Deshabilitar las cartas emparejadas en la interfaz
+                Actualizar variables de juego (intentos, parejas, etc.)
+                Limpiar las listas de cartas seleccionadas y posibles parejas
+
+            Sino:
+                Actualizar mensajes e incrementar intentos fallidos
+
+        Sino:
+            (Realizar acciones similares para validar las parejas del jugador dos)
+
+    (Métodos restantes para controlar el cronómetro, actualización de etiquetas, cierre de ventana, etc.)
+Método ocultar_cartas_despues_delay(self, delay):
+        Programar un retardo para ocultar las cartas después de un tiempo determinado
+
+    Método ocultar_cartas(self):
+        Si es el turno del jugador dos:
+            Ocultar las cartas seleccionadas por el jugador uno
+            Limpiar la entrada de texto
+
+        Sino:
+            Ocultar las cartas seleccionadas por el jugador dos
+            Limpiar la entrada de texto
+
+    Método iniciar_cronometro(self, widget):
+        Iniciar el cronómetro actualizando el tiempo cada segundo
+
+    Método actualizar_tiempo(self):
+        Si el juego está en curso:
+            Incrementar el tiempo transcurrido
+            Actualizar la etiqueta que muestra el tiempo transcurrido
+            Continuar actualizando el tiempo
+
+        Sino:
+            Detener la actualización del tiempo
+
+    Método detener_cronometro(self, widget):
+        Detener el avance del tiempo
+
+    Método actualizar_etiqueta(self):
+        Actualizar la etiqueta que muestra el tiempo transcurrido
+
+    Método on_cerrar_clicked(self, widget):
+        Cerrar la ventana actual
+        Mostrar la ventana del formulario principal
+
+    Método on_close_clicked(self, but_cerrar):
+        Salir (Gtk)
+
 
 """
