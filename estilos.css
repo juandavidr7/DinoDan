@@ -24,8 +24,28 @@ button
     font-weight: bold;
 }
 
+.player1{
+    color: green;
+    font-weight: bold;
+}
+
+.player2{
+    color: blue;
+    font-weight: bold;
+}
+
 .btn-niveles{
     color:black
+}
+
+.vbox1{
+    border: 2px solid green;
+    border-radius: 10px;
+}
+
+.vbox2{
+    border: 2px solid blue;
+    border-radius: 10px;
 }
 
 
