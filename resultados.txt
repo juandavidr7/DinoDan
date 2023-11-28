@@ -1,7 +1,16 @@
 
+<<<<<<< HEAD
     Resultados de la partida en nivel Díficil, Jugador Jugador 1:
     Intentos totales: 16
     Intentos fallidos: 8
     Intentos exitosos: 8
     Tiempo de solución: 278 Segundos
+=======
+    Resultados de la partida Multijugador:
+    Ganador: Jugador 1
+    Intentos totales: 8
+    Intentos fallidos: 4
+    Intentos exitosos: 4
+    Tiempo de solución: 43 Segundos
+>>>>>>> e2ebd38c9bcd4d921f0afe168ba37e15dcca04d3
                                         
