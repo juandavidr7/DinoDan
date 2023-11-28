@@ -14,6 +14,7 @@ class Form_medio(Gtk.Window):
         self.avanzar_tiempo = False
 
         self.form_instance = form_instance
+        self.player_name = self.form_instance.player_name
 
         self.cartas_numeros = list(range(1, 7)) * 2
         self.cartas_seleccionadas = []
@@ -167,7 +168,7 @@ class Form_medio(Gtk.Window):
                                 print(current_report_state)
                                 if current_report_state == True:
                                     text = f"""
-    Resultados de la partida en nivel Fácil:
+    Resultados de la partida en nivel Medio, jugador {self.player_name}:
     Intentos totales: {self.intentos_exitosos + self.intentos_fallidos}
     Intentos fallidos: {self.intentos_fallidos}
     Intentos exitosos: {self.intentos_exitosos}
