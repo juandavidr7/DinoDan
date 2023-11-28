@@ -14,7 +14,7 @@ class form_multi(Gtk.Window):
 
         self.form_instance = form_instance
         self.player_name1 = self.form_instance.player_name
-        self.player_name2 = ""
+        self.player_name2 = "Jugador 2"
         self.report_state = self.form_instance.report_state
 
         # Establecer la posición de la ventana en el centro
@@ -73,7 +73,7 @@ class form_multi(Gtk.Window):
         buttons_container.pack_start(btn_volver, False, True, 9)
 
         # Añadir margen hacia abajo a la caja de botones
-        buttons_container.set_margin_top(200)  # Ajusta el valor según tus preferencias
+        buttons_container.set_margin_top(420)  # Ajusta el valor según tus preferencias
 
         # Crear un contenedor para centrar los botones en la parte inferior
         align_bottom = Gtk.Alignment.new(0.5, 1, 0, 0)
@@ -114,6 +114,7 @@ class FormName(Gtk.Window):
         self1.set_resizable(False)
         vb = Gtk.VBox()
         self1.add(vb)
+        self1.set_position(Gtk.WindowPosition.CENTER)
 
         self1.form_instance = form
 

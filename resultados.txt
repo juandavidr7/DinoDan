@@ -1,7 +1,7 @@
 
-Resultados de la partida en nivel Fácil:
-Intentos totales: 6
-Intentos fallidos: 2
-Intentos exitosos: 4
-Tiempo de solución: 34 Segundos
-                                    
+    Resultados de la partida en nivel Díficil, Jugador Jugador 1:
+    Intentos totales: 16
+    Intentos fallidos: 8
+    Intentos exitosos: 8
+    Tiempo de solución: 278 Segundos
+                                        

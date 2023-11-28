@@ -7,7 +7,7 @@ gi.require_version("Gtk", "3.0")
 class Form_facil(Gtk.Window):
     def __init__(self, form_instance):
         super().__init__(title="Busca mi pareja")
-        self.player_name = self.form_instance.player_name
+        
 
         self.set_default_size(640, 800)
         # Establecer la posición de la ventana en el centro
@@ -16,6 +16,7 @@ class Form_facil(Gtk.Window):
         self.tiempo_transcurrido = 0
         self.avanzar_tiempo = False
         self.form_instance = form_instance
+        self.player_name = self.form_instance.player_name
 
         self.cartas_numeros = [1, 2, 3, 4, 1, 2, 3, 4]
         self.cartas_seleccionadas = []
@@ -86,11 +87,11 @@ class Form_facil(Gtk.Window):
         hbox5.pack_start(self.btn_iniciar_juego, False, True, 0)
         
 
-        btn_seleccionar = Gtk.Button.new_with_label("Seleccionar carta")
-        btn_seleccionar.connect("clicked", self.on_seleccionar_clicked, lbl_imagen, lbl_victoria)
-        btn_seleccionar.set_size_request(250, 100)
-        btn_seleccionar.get_style_context ().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
-        hbox5.pack_start(btn_seleccionar, False, True, 0)
+        self.btn_seleccionar = Gtk.Button.new_with_label("Seleccionar carta")
+        self.btn_seleccionar.connect("clicked", self.on_seleccionar_clicked, lbl_imagen, lbl_victoria)
+        self.btn_seleccionar.set_size_request(250, 100)
+        self.btn_seleccionar.get_style_context ().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
+        hbox5.pack_start(self.btn_seleccionar, False, True, 0)
 
         btn_volver = Gtk.Button.new_with_label("Volver")
         btn_volver.connect("clicked", self.on_cerrar_clicked)
@@ -194,7 +195,7 @@ Tiempo de solución: {self.tiempo_transcurrido} Segundos
     # Acá se van a hacer las validaciones con los dos arrays creados previamente
     def validar_parejas(self, lbl_imagen, numero_carta):
         print(self.cartas_seleccionadas)
-        
+        self.btn_seleccionar.set_sensitive(False)
         
         if self.cartas_seleccionadas[0].get_property("file")== self.cartas_seleccionadas[1].get_property("file"):
             self.parejas_encontradas.append(self.posibles_parejas[0])
@@ -206,10 +207,15 @@ Tiempo de solución: {self.tiempo_transcurrido} Segundos
             self.cartas_seleccionadas = []
             self.intentos_exitosos += 1
             self.posibles_parejas = []
+            GLib.timeout_add(500, self.enable_button)
         else:
             lbl_imagen.set_text("¡No es pareja! Intenta con otra carta.")
             self.intentos_fallidos += 1
             self.posibles_parejas = []
+
+    def enable_button(self):
+        self.btn_seleccionar.set_sensitive(True)
+        return False
 
     # Aca se define el tiempo que van a tardar en volverse a ocultar
     def ocultar_cartas_despues_delay(self, delay):
@@ -222,6 +228,8 @@ Tiempo de solución: {self.tiempo_transcurrido} Segundos
             imagen.set_sensitive(True)
         self.cartas_seleccionadas = []
         self.entry_numero_carta.set_text("")
+        self.btn_seleccionar.set_sensitive(True)
+       
 
     def iniciar_cronometro(self, widget):
         self.tiempo_transcurrido = 0

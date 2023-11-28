@@ -132,13 +132,15 @@ class VentanaMulti(Gtk.Window):
         self.lbl_contador.get_style_context ().add_class("informacion")
         hbox6.pack_start(self.lbl_contador, True, True, 0)
 
+        btn_seleccionar = Gtk.Button.new_with_label("Seleccionar carta")
+
         self.btn_iniciar_juego = Gtk.Button.new_with_label("Jugar de nuevo")
-        self.btn_iniciar_juego.connect("clicked", self.on_iniciar_juego, lbl_imagen, lbl_victoria)
+        self.btn_iniciar_juego.connect("clicked", self.on_iniciar_juego, lbl_imagen, lbl_victoria, btn_seleccionar)
         self.btn_iniciar_juego.set_size_request(250, 100)
         self.btn_iniciar_juego.get_style_context ().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
         hbox7.pack_start(self.btn_iniciar_juego, False, True, 0)
 
-        btn_seleccionar = Gtk.Button.new_with_label("Seleccionar carta")
+        
         btn_seleccionar.connect("clicked", self.on_seleccionar_clicked, lbl_imagen, lbl_victoria, btn_seleccionar)
         btn_seleccionar.set_size_request(250, 100)
         btn_seleccionar.get_style_context ().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
@@ -164,10 +166,11 @@ class VentanaMulti(Gtk.Window):
         align_bottom2.add(hbox8)
         vbox.pack_start(align_bottom2, False, False, 8)       
 
-        self.on_iniciar_juego(None, lbl_imagen, lbl_victoria)
+        self.on_iniciar_juego(None, lbl_imagen, lbl_victoria, btn_seleccionar)
     # Función para llamar a las funciones principales e inicie el juego
     
-    def on_iniciar_juego(self, button, lbl_imagen, lbl_victoria):
+    def on_iniciar_juego(self, button, lbl_imagen, lbl_victoria, btn_seleccionar):
+        btn_seleccionar.set_sensitive(True)
         lbl_victoria.set_text("Completa todas las parejas, en el menor tiempo posible")
         self.entry_numero_carta.show()
         self.btn_iniciar_juego.set_sensitive(False)
@@ -215,6 +218,7 @@ class VentanaMulti(Gtk.Window):
                                     lbl_imagen.set_text(f"{self.intentos_exitosos} intentos exitosos \n{self.intentos_fallidos} intentos fallidos  \n{self.intentos_exitosos + self.intentos_fallidos} Total de intentos")
                                     self.entry_numero_carta.set_sensitive(False)
                                     btn_seleccionar.set_sensitive(False)
+                                    self.btn_iniciar_juego.set_sensitive(True)
                                     self.detener_cronometro(self)
                                     current_report_state = self.form_instance.report_state
                                     print(current_report_state)
@@ -265,7 +269,7 @@ class VentanaMulti(Gtk.Window):
                                     lbl_victoria.set_text(f"¡Felicidades! Ha ganado {self.player_name2}")
                                     lbl_imagen.set_text(f"{self.intentos_exitosos} intentos exitosos \n{self.intentos_fallidos} intentos fallidos  \n{self.intentos_exitosos + self.intentos_fallidos} Total de intentos")
                                     self.lbl_turnos.set_text("Fin del juego")
-                                    
+                                    self.btn_iniciar_juego.set_sensitive(True)
                                     self.entry_numero_carta.set_sensitive(False)
                                     btn_seleccionar.set_sensitive(False)
                                     self.detener_cronometro(self)

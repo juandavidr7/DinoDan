@@ -94,11 +94,11 @@ class Form_dificil(Gtk.Window):
         self.btn_iniciar_juego.get_style_context ().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
         hbox7.pack_start(self.btn_iniciar_juego, False, True, 0)
 
-        btn_seleccionar = Gtk.Button.new_with_label("Seleccionar carta")
-        btn_seleccionar.connect("clicked", self.on_seleccionar_clicked, lbl_imagen, lbl_victoria)
-        btn_seleccionar.set_size_request(250, 100)
-        btn_seleccionar.get_style_context ().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
-        hbox7.pack_start(btn_seleccionar, False, True, 0)
+        self.btn_seleccionar = Gtk.Button.new_with_label("Seleccionar carta")
+        self.btn_seleccionar.connect("clicked", self.on_seleccionar_clicked, lbl_imagen, lbl_victoria)
+        self.btn_seleccionar.set_size_request(250, 100)
+        self.btn_seleccionar.get_style_context ().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
+        hbox7.pack_start(self.btn_seleccionar, False, True, 0)
 
         btn_volver = Gtk.Button.new_with_label("Volver")
         btn_volver.connect("clicked", self.on_cerrar_clicked)
@@ -121,12 +121,13 @@ class Form_dificil(Gtk.Window):
         vbox.pack_start(align_bottom2, False, False, 8)
 
         self.on_iniciar_juego(None, lbl_imagen, lbl_victoria)
-        self.iniciar_cronometro(self)
+        
 
     def on_iniciar_juego(self, button, lbl_imagen, lbl_victoria):
         self.tiempo_transcurrido = 0
         lbl_victoria.set_text("Completa todas las parejas, en el menor tiempo posible")
         self.entry_numero_carta.show()
+        self.entry_numero_carta.set_sensitive(True)
         self.btn_iniciar_juego.set_sensitive(False)
         self.iniciar_cronometro(self)
         self.barajar_cartas()
@@ -135,6 +136,7 @@ class Form_dificil(Gtk.Window):
         self.intentos_exitosos = 0
         self.intentos_fallidos = 0
         self.avanzar_tiempo = True
+
         
         lbl_imagen.set_text("Seleccione dos cartas: Intentos: 0")
 
@@ -164,6 +166,7 @@ class Form_dificil(Gtk.Window):
                             lbl_victoria.set_text(f"¡Felicidades! Has encontrado todas las parejas!")
                             lbl_imagen.set_text(f"{self.intentos_exitosos} intentos exitosos \n{self.intentos_fallidos} intentos fallidos  \n{self.intentos_exitosos + self.intentos_fallidos} Total de intentos")
                             self.entry_numero_carta.set_sensitive(False)
+                            self.btn_iniciar_juego.set_sensitive(True)
                             self.detener_cronometro(self)
                             self.entry_numero_carta.hide()
                             current_report_state = self.form_instance.current_report_state
@@ -191,7 +194,7 @@ class Form_dificil(Gtk.Window):
 
     def validar_parejas(self, lbl_imagen, lbl_victoria):
         print(self.cartas_seleccionadas)
-
+        self.btn_seleccionar.set_sensitive(False)
         if self.cartas_seleccionadas[0].get_property("file") == self.cartas_seleccionadas[1].get_property("file"):
             self.parejas_encontradas.append(self.posibles_parejas[0])
             self.parejas_encontradas.append(self.posibles_parejas[1])
@@ -202,10 +205,15 @@ class Form_dificil(Gtk.Window):
             self.cartas_seleccionadas = []
             self.intentos_exitosos += 1
             self.posibles_parejas = []
+            GLib.timeout_add(500, self.enable_button)
         else:
             lbl_imagen.set_text("¡No es pareja! Intenta con otra carta.")
             self.intentos_fallidos += 1
             self.posibles_parejas = []
+
+    def enable_button(self):
+        self.btn_seleccionar.set_sensitive(True)
+        return False
 
     def ocultar_cartas_despues_delay(self, delay):
         GLib.timeout_add(delay * 1000, self.ocultar_cartas)
@@ -216,6 +224,7 @@ class Form_dificil(Gtk.Window):
             imagen.set_sensitive(True)
         self.cartas_seleccionadas = []
         self.entry_numero_carta.set_text("")
+        self.btn_seleccionar.set_sensitive(True)
        
     def iniciar_cronometro(self, widget):
         GLib.timeout_add(1000, self.actualizar_tiempo)
