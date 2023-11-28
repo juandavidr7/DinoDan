@@ -1,6 +1,6 @@
 """
 #Integrantes:
-1. Juan David Rincón,
+1. Juan David Rincón, 202342032 - 3743
 2. David Elian Taborda, 202341331 - 3743
 3. Libardo Alejandro Quintero Gómez, 202342181 - 3743
 
