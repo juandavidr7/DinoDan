@@ -1,7 +1,7 @@
 
-Resultados de la partida en nivel Fácil:
+Resultados de la partida en nivel Fácil, Jugador True:
 Intentos totales: 6
 Intentos fallidos: 2
 Intentos exitosos: 4
-Tiempo de solución: 34 Segundos
+Tiempo de solución: 37 Segundos
                                     

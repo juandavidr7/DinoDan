@@ -7,7 +7,7 @@ gi.require_version("Gtk", "3.0")
 class Form_facil(Gtk.Window):
     def __init__(self, form_instance):
         super().__init__(title="Busca mi pareja")
-        self.player_name = self.form_instance.player_name
+        
 
         self.set_default_size(640, 800)
         # Establecer la posición de la ventana en el centro
@@ -16,6 +16,7 @@ class Form_facil(Gtk.Window):
         self.tiempo_transcurrido = 0
         self.avanzar_tiempo = False
         self.form_instance = form_instance
+        self.player_name = self.form_instance.player_name
 
         self.cartas_numeros = [1, 2, 3, 4, 1, 2, 3, 4]
         self.cartas_seleccionadas = []

@@ -22,7 +22,7 @@ class Form(Gtk.Window):
      
         self.report_state = True
         self.music_state = True
-        self.player_name = True
+        self.player_name = "Jugador 1"
 
         music_file = "videoplayback.mp3"
         self.player = Gst.ElementFactory.make("playbin", "player")
