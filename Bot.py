@@ -7,13 +7,14 @@ gi.require_version("Gtk", "3.0")
     # Esta es la función más perra, aquí se hacen varias cosas
 
 
+
 class VentanaBot(Gtk.Window):
     def __init__(self, form_instance):
         super().__init__(title="Busca mi pareja")
         self.set_default_size(50, 50)
         self.set_border_width(1)
         # Establecer la posición de la ventana en el centro
-
+        self.avalaible_plays = [1,2,3,4,5,6,7,8]
         self.connect("show", self.StartGame)
         self.set_position(Gtk.WindowPosition.CENTER)
         self.tiempo_transcurrido = 0
@@ -155,9 +156,12 @@ class VentanaBot(Gtk.Window):
                             
                             self.validar_parejas(lbl_imagen, numero_carta)
                             self.ocultar_cartas_despues_delay(2)  # Cambiado a 1 segundo
-                            self.turno = 2
-                            self.lbl_turnos.set_text("Turno para el jugador dos")
+                            self.turno=2
+                            self.lbl_turnos.set_text("Turno para la máquina")
+                            
+
                             if self.intentos_exitosos == 4:
+                                    self.turno = 0
                                     lbl_victoria.set_text(f"¡Felicidades! Ha ganado el jugador 1 en {self.intentos_exitosos} intentos exitosos, {self.intentos_fallidos} intentos fallidos, con un total de {self.intentos_exitosos + self.intentos_fallidos} intentos.")
                                     self.lbl_turnos.set_text("Fin del juego")
                                     self.entry_numero_carta.set_sensitive(False)
@@ -177,7 +181,13 @@ class VentanaBot(Gtk.Window):
                                         print(text)
                                         with open("resultados.txt", "w") as archivo:
                                             archivo.write(text)
-                                    
+                            if self.turno != 0:
+                                self.bot_acplays = []
+                                for i in range(2):
+                                    print(i,"vez ejecucion bot")
+                                    self.bot_plays(lbl_imagen, lbl_victoria, btn_seleccionar)
+                                self.ocultar_cartas_bot_despues_delay(2)  # Cambiado a 1 segundo
+                                self.turno = 1         
                                     
                             
                     else:
@@ -185,62 +195,64 @@ class VentanaBot(Gtk.Window):
                         self.intentos_fallidos += 1
                 else:
                     lbl_imagen.set_text("Número de carta no válido. Inténtalo de nuevo.")
-        else:
-            
-            numero_carta = int(self.entry_numero_carta.get_text())
-            self.posibles_parejas_ply2.append(numero_carta)
-            
-            if numero_carta in self.parejas_encontradas_ply2:
-                lbl_imagen.set_text("Has seleccionado una carta ya encontrada\nIntenta con otra.")
-                # Verificar que el número ingresado en la "Entry" esté entre 1 y 8
-            else:
-                if 1 <= numero_carta <= 8:
-                    posicion_carta = numero_carta - 1
-                    carta_seleccionada = self.imagenes2[posicion_carta]
-                    
-                    # Acá lo que hace es que va guardando temporalmente la carta seleccionada,
-                    # dentro de otro array de cartas seleccionadas para después hacer comparaciones
-                    if carta_seleccionada not in self.cartas_seleccionadas_ply2:
-                        lbl_imagen.set_text(f"Carta seleccionada: {numero_carta}")
-                        carta_seleccionada.set_from_file(f"img/{(self.cartas_numeros[posicion_carta])}.jpg")
-                        self.cartas_seleccionadas_ply2.append(carta_seleccionada)
 
-                        if len(self.cartas_seleccionadas_ply2) == 2:
+                
+
+
+
+    def bot_plays(self, lbl_imagen, lbl_victoria, btn_seleccionar):
+        
+        print("Bot puede jugar",self.avalaible_plays)
+        play1 = random.choice(self.avalaible_plays)
+        self.avalaible_plays.remove(play1)
+        print("Bot escogió", play1)
+        self.bot_acplays.append(play1)
+        print("Bot ha jugado", self.bot_acplays)
+        
+        self.posibles_parejas_ply2.append(play1)
+        posicion_carta = play1 - 1
+        carta_seleccionada = self.imagenes2[posicion_carta]
+
+                    
+                # Acá lo que hace es que va guardando temporalmente la carta seleccionada,
+                # dentro de otro array de cartas seleccionadas para después hacer comparaciones
+        if carta_seleccionada not in self.cartas_seleccionadas_ply2:
+            lbl_imagen.set_text(f"Carta seleccionada: {play1}")
+            carta_seleccionada.set_from_file(f"img/{(self.cartas_numeros[posicion_carta])}.jpg")
+            self.cartas_seleccionadas_ply2.append(carta_seleccionada)
+
+            if len(self.cartas_seleccionadas_ply2) == 2:
                             
-                            self.validar_parejas(lbl_imagen, numero_carta)
-                            self.ocultar_cartas_despues_delay(2)  # Cambiado a 1 segundo
-                            self.turno = 1
-                            self.lbl_turnos.set_text("Turno para el jugador uno")
-                            if self.intentos_exitosos2 == 4:
-                                    lbl_victoria.set_text(f"¡Felicidades! Ha ganado el jugador 2 en {self.intentos_exitosos2} intentos exitosos, {self.intentos_fallidos2} intentos fallidos, con un total de {self.intentos_exitosos2 + self.intentos_fallidos2} intentos.")
-                                    self.lbl_turnos.set_text("Fin del juego")
+                self.validar_parejas(lbl_imagen, play1)
+                
+                self.lbl_turnos.set_text("Turno para el jugador uno")
+                if self.intentos_exitosos2 == 4:
+                        lbl_victoria.set_text(f"¡Felicidades! Ha ganado la máquina en {self.intentos_exitosos2} intentos exitosos, {self.intentos_fallidos2} intentos fallidos, con un total de {self.intentos_exitosos2 + self.intentos_fallidos2} intentos.")
+                        self.lbl_turnos.set_text("Fin del juego")
                                     
-                                    self.entry_numero_carta.set_sensitive(False)
-                                    btn_seleccionar.set_sensitive(False)
-                                    self.detener_cronometro(self)
-                                    current_report_state = self.form_instance.report_state
-                                    print(current_report_state)
-                                    if current_report_state == True:
-                                        text = f"""
-    Resultados de la partida en Multijugador:
-    Ganador: Jugador 2
+                        self.entry_numero_carta.set_sensitive(False)
+                        btn_seleccionar.set_sensitive(False)
+                        self.detener_cronometro(self)
+                        current_report_state = self.form_instance.report_state
+                        print(current_report_state)
+                        if current_report_state == True:
+                            text = f"""
+    Resultados de la partida en Máquina - Jugador:
+    Ganador: Máquina
     Intentos totales: {self.intentos_exitosos2 + self.intentos_fallidos2}
     Intentos fallidos: {self.intentos_fallidos2}
     Intentos exitosos: {self.intentos_exitosos2}
     Tiempo de solución: {self.tiempo_transcurrido} Segundos
                                         """
-                                        print(text)
-                                        with open("resultados.txt", "w") as archivo:
-                                            archivo.write(text)
+                            print(text)
+                            with open("resultados.txt", "w") as archivo:
+                                archivo.write(text)
                                     
                                     
                             
-                    else:
-                        lbl_imagen.set_text("Número de carta no válido o ya seleccionada. Inténtalo de nuevo.")
-                        self.intentos_fallidos2 += 1
-                else:
-                    lbl_imagen.set_text("Número de carta no válido. Inténtalo de nuevo.")
-
+        else:
+            lbl_imagen.set_text("Número de carta no válido o ya seleccionada. Inténtalo de nuevo.")
+            self.intentos_fallidos2 += 1
 
 
     # Esta funcion solo baraja las cartas, para que no salga siempre iguales xd
@@ -260,6 +272,7 @@ class VentanaBot(Gtk.Window):
 
     # Acá se van a hacer las validaciones con los dos arrays creados previamente
     def validar_parejas(self, lbl_imagen, numero_carta):
+        
         print(self.cartas_seleccionadas_ply1)
         print(self.cartas_seleccionadas_ply2)
         if self.turno == 1:
@@ -288,29 +301,36 @@ class VentanaBot(Gtk.Window):
                 self.cartas_seleccionadas_ply2 = []
                 self.intentos_exitosos2 += 1
                 self.posibles_parejas_ply2 = []
+                self.bot_acplays = []
             else:
                 lbl_imagen.set_text("¡No es pareja! Intenta con otra carta.")
                 self.intentos_fallidos2 += 1
                 self.posibles_parejas_ply2 = []
+                self.avalaible_plays.append(self.bot_acplays[0])
+                self.avalaible_plays.append(self.bot_acplays[1])
 
     # Aca se define el tiempo que van a tardar en volverse a ocultar
     def ocultar_cartas_despues_delay(self, delay):
         GLib.timeout_add(delay * 1000, self.ocultar_cartas)
 
+    def ocultar_cartas_bot_despues_delay(self, delay):
+        GLib.timeout_add(delay * 1000, self.ocultar_bot_cartas)
+
+    def ocultar_bot_cartas(self):
+        for imagen2 in self.cartas_seleccionadas_ply2:
+            imagen2.set_from_file("img/0.jpg")
+            imagen2.set_sensitive(True)
+        self.cartas_seleccionadas_ply2 = []
+        self.entry_numero_carta.set_text("")
+        
     # Esto es para que las cartas se vuelvan a ocultar, si no se encuentra que sean pareja
     def ocultar_cartas(self):
-        if self.turno == 2:
-            for imagen in self.cartas_seleccionadas_ply1:
-                imagen.set_from_file("img/0.jpg")
-                imagen.set_sensitive(True)
-            self.cartas_seleccionadas_ply1 = []
-            self.entry_numero_carta.set_text("")
-        else:
-            for imagen2 in self.cartas_seleccionadas_ply2:
-                imagen2.set_from_file("img/0.jpg")
-                imagen2.set_sensitive(True)
-            self.cartas_seleccionadas_ply2 = []
-            self.entry_numero_carta.set_text("")
+        for imagen in self.cartas_seleccionadas_ply1:
+            imagen.set_from_file("img/0.jpg")
+            imagen.set_sensitive(True)
+        self.cartas_seleccionadas_ply1 = []
+        self.entry_numero_carta.set_text("")
+
 
     def iniciar_cronometro(self, widget):
         GLib.timeout_add(1000, self.actualizar_tiempo)
