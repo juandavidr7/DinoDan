@@ -1,7 +1,8 @@
 
-Resultados de la partida en nivel Fácil:
-Intentos totales: 5
-Intentos fallidos: 1
-Intentos exitosos: 4
-Tiempo de solución: 35 Segundos
-                                    
+    Resultados de la partida Multijugador:
+    Ganador: Jugador 1
+    Intentos totales: 10
+    Intentos fallidos: 6
+    Intentos exitosos: 4
+    Tiempo de solución: 103 Segundos
+                                        

@@ -31,7 +31,7 @@ class VentanaMulti(Gtk.Window):
         self.parejas_encontradas_ply2 = []
         self.posibles_parejas_ply2 = []
 
-         # Establecer la posición de la ventana en el centro
+        # Establecer la posición de la ventana en el centro
         self.set_position(Gtk.WindowPosition.CENTER)
         
          # Crear un contenedor de tipo Overlay
@@ -123,8 +123,6 @@ class VentanaMulti(Gtk.Window):
         self.lbl_turnos.set_text("")
         self.lbl_turnos.get_style_context ().add_class("informacion")
         hbox6.pack_start(self.lbl_turnos, True, True, 0)
-        
-        
 
         self.lbl_contador = Gtk.Label(label="Tiempo: 0 segundos")
         self.lbl_contador.get_style_context ().add_class("informacion")
@@ -260,7 +258,7 @@ class VentanaMulti(Gtk.Window):
                             self.turno = 1
                             self.lbl_turnos.set_text("Turno para el jugador uno")
                             if self.intentos_exitosos2 == 4:
-                                    lbl_victoria.set_text(f"¡Felicidades! Ha ganado el jugador 2")
+                                    lbl_victoria.set_text(f"¡Felicidades! Ha ganado el jugador 1")
                                     lbl_imagen.set_text(f"{self.intentos_exitosos} intentos exitosos \n{self.intentos_fallidos} intentos fallidos  \n{self.intentos_exitosos + self.intentos_fallidos} Total de intentos")
                                     self.lbl_turnos.set_text("Fin del juego")
                                     
