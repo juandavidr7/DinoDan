@@ -129,7 +129,7 @@ class Form_facil(Gtk.Window):
         self.avanzar_tiempo = True
         lbl_imagen.set_text("Seleccione dos cartas:")
 
-    # Esta es la función más perra, aquí se hacen varias cosas
+    
     def on_seleccionar_clicked(self, button, lbl_imagen, lbl_victoria):
         numero_carta = int(self.entry_numero_carta.get_text())
         self.posibles_parejas.append(numero_carta)

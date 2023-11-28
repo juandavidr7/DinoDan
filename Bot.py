@@ -180,7 +180,7 @@ class VentanaBot(Gtk.Window):
         self.avanzar_tiempo = True
         lbl_imagen.set_text("Seleccione dos cartas:")
         
-    # Esta es la función más perra, aquí se hacen varias cosas
+    
     def on_seleccionar_clicked(self, button, lbl_imagen, lbl_victoria, btn_seleccionar):
         if self.turno == 1:
             self.lbl_turnos.set_text("Turno para el jugador uno")

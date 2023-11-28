@@ -21,7 +21,7 @@ class Form(Gtk.Window):
         self.music_state = True
         self.player_name = True
 
-        music_file = "videoplayback.m4a"
+        music_file = "videoplayback.mp3"
         self.player = Gst.ElementFactory.make("playbin", "player")
         self.player.set_property("uri", Gst.filename_to_uri(music_file))
         if not Gst.uri_protocol_is_valid(music_file):
@@ -92,7 +92,7 @@ class Form(Gtk.Window):
         buttons_container.pack_start(btn_multijugador, False, True, 0)
 
         # Añadir margen hacia abajo a la caja de botones
-        buttons_container.set_margin_top(200)  # Ajusta el valor según tus preferencias
+        buttons_container.set_margin_top(360)  # Ajusta el valor según tus preferencias
 
         # Crear un contenedor para centrar los botones en la parte inferior
         align_bottom = Gtk.Alignment.new(0.5, 1, 0, 0)
@@ -132,6 +132,8 @@ class FormName(Gtk.Window):
         self1.set_resizable(False)
         vb = Gtk.VBox()
         self1.add(vb)
+
+        self1.set_position(Gtk.WindowPosition.CENTER)
 
         self1.form_instance = form
 
