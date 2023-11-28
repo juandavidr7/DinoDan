@@ -17,6 +17,8 @@ class VentanaMulti(Gtk.Window):
         self.tiempo_transcurrido = 0
         self.avanzar_tiempo = False
         self.form_instance = form_instance
+        self.player_name1 = self.form_instance.player_name1
+        self.player_name2 = self.form_instance.player_name2
 
         self.intentos_exitosos2 = 0
         self.intentos_fallidos2 = 0
@@ -31,7 +33,7 @@ class VentanaMulti(Gtk.Window):
         self.parejas_encontradas_ply2 = []
         self.posibles_parejas_ply2 = []
 
-        # Establecer la posición de la ventana en el centro
+         # Establecer la posición de la ventana en el centro
         self.set_position(Gtk.WindowPosition.CENTER)
         
          # Crear un contenedor de tipo Overlay
@@ -93,10 +95,10 @@ class VentanaMulti(Gtk.Window):
         # Todo esto es pura creación de botones, vinculación, asociación con las funciones
 
         lbl_ply1 = Gtk.Label()
-        lbl_ply1.set_text("Jugador 1")
+        lbl_ply1.set_text(self.player_name1)
         lbl_ply1.get_style_context ().add_class("player1")
         lbl_ply2= Gtk.Label()
-        lbl_ply2.set_text("Jugador 2")
+        lbl_ply2.set_text(self.player_name2)
         lbl_ply2.get_style_context ().add_class("player2")
         vbox1.pack_start(lbl_ply1, True, True, 0)
         vbox2.pack_start(lbl_ply2, True, True, 0)
@@ -123,6 +125,8 @@ class VentanaMulti(Gtk.Window):
         self.lbl_turnos.set_text("")
         self.lbl_turnos.get_style_context ().add_class("informacion")
         hbox6.pack_start(self.lbl_turnos, True, True, 0)
+        
+        
 
         self.lbl_contador = Gtk.Label(label="Tiempo: 0 segundos")
         self.lbl_contador.get_style_context ().add_class("informacion")
@@ -181,7 +185,7 @@ class VentanaMulti(Gtk.Window):
     # Esta es la función más perra, aquí se hacen varias cosas
     def on_seleccionar_clicked(self, button, lbl_imagen, lbl_victoria, btn_seleccionar):
         if self.turno == 1:
-            self.lbl_turnos.set_text("Turno para el jugador uno")
+            self.lbl_turnos.set_text(f"Turno para {self.player_name1}")
             numero_carta = int(self.entry_numero_carta.get_text())
             self.posibles_parejas_ply1.append(numero_carta)
             
@@ -205,9 +209,9 @@ class VentanaMulti(Gtk.Window):
                             self.validar_parejas(lbl_imagen, numero_carta)
                             self.ocultar_cartas_despues_delay(2)  # Cambiado a 1 segundo
                             self.turno = 2
-                            self.lbl_turnos.set_text("Turno para el jugador dos")
+                            self.lbl_turnos.set_text(f"Turno para {self.player_name2}")
                             if self.intentos_exitosos == 4:
-                                    lbl_victoria.set_text(f"¡Felicidades! Ha ganado el jugador 1")
+                                    lbl_victoria.set_text(f"¡Felicidades! Ha ganado {self.player_name1}")
                                     lbl_imagen.set_text(f"{self.intentos_exitosos} intentos exitosos \n{self.intentos_fallidos} intentos fallidos  \n{self.intentos_exitosos + self.intentos_fallidos} Total de intentos")
                                     self.entry_numero_carta.set_sensitive(False)
                                     btn_seleccionar.set_sensitive(False)
@@ -217,7 +221,7 @@ class VentanaMulti(Gtk.Window):
                                     if current_report_state == True:
                                         text = f"""
     Resultados de la partida Multijugador:
-    Ganador: Jugador 1
+    Ganador: {self.player_name1}
     Intentos totales: {self.intentos_exitosos + self.intentos_fallidos}
     Intentos fallidos: {self.intentos_fallidos}
     Intentos exitosos: {self.intentos_exitosos}
@@ -256,9 +260,9 @@ class VentanaMulti(Gtk.Window):
                             self.validar_parejas(lbl_imagen, numero_carta)
                             self.ocultar_cartas_despues_delay(2)  # Cambiado a 1 segundo
                             self.turno = 1
-                            self.lbl_turnos.set_text("Turno para el jugador uno")
+                            self.lbl_turnos.set_text(f"Turno para {self.player_name1}")
                             if self.intentos_exitosos2 == 4:
-                                    lbl_victoria.set_text(f"¡Felicidades! Ha ganado el jugador 1")
+                                    lbl_victoria.set_text(f"¡Felicidades! Ha ganado {self.player_name2}")
                                     lbl_imagen.set_text(f"{self.intentos_exitosos} intentos exitosos \n{self.intentos_fallidos} intentos fallidos  \n{self.intentos_exitosos + self.intentos_fallidos} Total de intentos")
                                     self.lbl_turnos.set_text("Fin del juego")
                                     
@@ -270,7 +274,7 @@ class VentanaMulti(Gtk.Window):
                                     if current_report_state == True:
                                         text = f"""
     Resultados de la partida en Multijugador:
-    Ganador: Jugador 2
+    Ganador: {self.player_name2}
     Intentos totales: {self.intentos_exitosos2 + self.intentos_fallidos2}
     Intentos fallidos: {self.intentos_fallidos2}
     Intentos exitosos: {self.intentos_exitosos2}
