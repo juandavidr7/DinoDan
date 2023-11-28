@@ -13,6 +13,8 @@ class form_multi(Gtk.Window):
         
 
         self.form_instance = form_instance
+        self.player_name1 = self.form_instance.player_name
+        self.player_name2 = ""
         self.report_state = self.form_instance.report_state
 
         # Establecer la posición de la ventana en el centro
@@ -34,6 +36,13 @@ class form_multi(Gtk.Window):
 
         # VBox para botones
         buttons_container = Gtk.VBox(spacing=6)
+
+        btn_nombre = Gtk.Button.new_with_label("Nombre Jugador 2")
+        btn_nombre.connect("clicked", self.NombrePlayer2)
+        btn_nombre.set_size_request(250, 50)
+        btn_nombre.set_name("btn-menu")
+        btn_nombre.get_style_context ().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
+        buttons_container.pack_start(btn_nombre, False, True, 0)
 
 
         # Button cargar valor
@@ -64,7 +73,7 @@ class form_multi(Gtk.Window):
         buttons_container.pack_start(btn_volver, False, True, 9)
 
         # Añadir margen hacia abajo a la caja de botones
-        buttons_container.set_margin_top(400)  # Ajusta el valor según tus preferencias
+        buttons_container.set_margin_top(200)  # Ajusta el valor según tus preferencias
 
         # Crear un contenedor para centrar los botones en la parte inferior
         align_bottom = Gtk.Alignment.new(0.5, 1, 0, 0)
@@ -73,6 +82,10 @@ class form_multi(Gtk.Window):
 
         # Create an attribute to hold the reference to VentanaConfig
         self.Ventana_Config = None
+
+    def NombrePlayer2(self, widget):
+        self.Ventana_name2 = FormName(self)
+        self.Ventana_name2.show_all()
 
     def MultiplayerS(self, widget):
         self.Ventana_Multi = VentanaMulti(self)
@@ -94,3 +107,34 @@ class form_multi(Gtk.Window):
         # Show the form window using the stored reference
         self.form_instance.show_menu()
 
+class FormName(Gtk.Window):
+    def __init__(self1, form):
+        super().__init__(title="Ingresa el player 2")
+        self1.set_default_size(200, 200)
+        self1.set_resizable(False)
+        vb = Gtk.VBox()
+        self1.add(vb)
+
+        self1.form_instance = form
+
+
+        lbl_name = Gtk.Label()
+        lbl_name.set_text("Ingresa el nombre del jugador 2:")
+
+        input_name = Gtk.Entry()
+        input_name.set_placeholder_text("Tu nombre...")
+
+        button_name = Gtk.Button()
+        button_name.set_label("Aceptar")
+        button_name.connect("clicked", self1.guardar_nombre, input_name)
+        button_name.set_size_request(150, 50)
+        button_name.set_name("btn-menu")
+        button_name.get_style_context ().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
+
+        vb.pack_start(lbl_name, True, True, 0)
+        vb.pack_start(input_name, True, True, 0)
+        vb.pack_start(button_name, True, True, 0)
+
+    def guardar_nombre(self1, widget, input_name):
+        self1.form_instance.player_name2 = input_name.get_text()
+        self1.hide()
