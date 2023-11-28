@@ -11,6 +11,7 @@ class Form_dificil(Gtk.Window):
         self.set_default_size(640, 800)
         
         self.form_instance = form_instance
+        self.player_name = self.form_instance.player_name
         self.tiempo_transcurrido = 0
         self.avanzar_tiempo = False
         self.cartas_numeros = list(range(1, 9)) * 2
@@ -169,7 +170,7 @@ class Form_dificil(Gtk.Window):
                             print(current_report_state)
                             if current_report_state == True:
                                 text = f"""
-    Resultados de la partida en nivel Fácil:
+    Resultados de la partida en nivel Díficil, Jugador {self.player_name}:
     Intentos totales: {self.intentos_exitosos + self.intentos_fallidos}
     Intentos fallidos: {self.intentos_fallidos}
     Intentos exitosos: {self.intentos_exitosos}
