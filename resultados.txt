@@ -1,7 +1,8 @@
 
-Resultados de la partida en nivel Fácil, Jugador True:
-Intentos totales: 6
-Intentos fallidos: 2
-Intentos exitosos: 4
-Tiempo de solución: 37 Segundos
-                                    
+    Resultados de la partida Multijugador:
+    Ganador: Jugador 1
+    Intentos totales: 8
+    Intentos fallidos: 4
+    Intentos exitosos: 4
+    Tiempo de solución: 43 Segundos
+                                        

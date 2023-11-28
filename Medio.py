@@ -162,6 +162,7 @@ class Form_medio(Gtk.Window):
                                 lbl_victoria.set_text(f"¡Felicidades! Has encontrado todas las parejas!")
                                 lbl_imagen.set_text(f"{self.intentos_exitosos} intentos exitosos \n{self.intentos_fallidos} intentos fallidos  \n{self.intentos_exitosos + self.intentos_fallidos} Total de intentos")
                                 self.entry_numero_carta.set_sensitive(False)
+                                self.btn_iniciar_juego.set_sensitive(True)
                                 self.detener_cronometro(self)
                                 self.entry_numero_carta.hide()
 

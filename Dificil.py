@@ -121,7 +121,7 @@ class Form_dificil(Gtk.Window):
         vbox.pack_start(align_bottom2, False, False, 8)
 
         self.on_iniciar_juego(None, lbl_imagen, lbl_victoria)
-        self.iniciar_cronometro(self)
+        
 
     def on_iniciar_juego(self, button, lbl_imagen, lbl_victoria):
         self.tiempo_transcurrido = 0
@@ -164,6 +164,7 @@ class Form_dificil(Gtk.Window):
                             lbl_victoria.set_text(f"¡Felicidades! Has encontrado todas las parejas!")
                             lbl_imagen.set_text(f"{self.intentos_exitosos} intentos exitosos \n{self.intentos_fallidos} intentos fallidos  \n{self.intentos_exitosos + self.intentos_fallidos} Total de intentos")
                             self.entry_numero_carta.set_sensitive(False)
+                            self.btn_iniciar_juego.set_sensitive(True)
                             self.detener_cronometro(self)
                             self.entry_numero_carta.hide()
                             current_report_state = self.form_instance.current_report_state
