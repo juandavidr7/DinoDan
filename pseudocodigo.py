@@ -4,6 +4,40 @@
 2. David Elian Taborda, 202341331 - 3743
 3. Libardo Alejandro Quintero Gómez, 202342181 - 3743
 
+
+
+Analisis del problema:
+
+
+1.Se dispone de tres niveles de dificultad: Fácil (2x4), Medio (2x6), Difícil (4x4).
+El nivel Fácil tiene un tablero de 2 filas y 4 columnas (8 cartas en total).
+El nivel Medio tiene un tablero de 2 filas y 6 columnas (12 cartas en total).
+El nivel Difícil tiene un tablero de 4 filas y 4 columnas (16 cartas en total).
+2. La GUI debe incluir elementos como etiquetas, campos de entrada, botones y otras opciones necesarias.
+3. Las imágenes deben cargarse de manera aleatoria en el tablero cada vez que se inicie el juego.
+4. Debe existir una función para descubrir las imágenes y verificar si forman parejas. Si se encuentran parejas, se deben desactivar; de lo contrario, se vuelven a ocultar.
+5. Al encontrar todas las parejas, se debe mostrar un mensaje indicando que el jugador ganó, junto con el número de intentos fallidos y totales.
+6. Hay bonificaciones adicionales si se guardan los resultados en un archivo o si se agregan opciones extra al juego, como temporizador, niveles, tipos de imágenes, entre otros.
+
+Pasos a seguir:
+
+1. Planificación El juego: Diseñar una estructura para la lógica del juego y la interfaz gráfica.
+2. Desarrollo de la lógica del juego: Crear funciones para cargar imágenes, manejar la lógica de descubrir parejas, contar intentos, determinar la victoria, etc.
+3. Construcción de la interfaz gráfica: Utilizar Gtk u otra biblioteca para construir la interfaz con botones, etiquetas, campos de entrada y el tablero.
+4. Integración de la lógica y la interfaz gráfica: Vincular las funciones del juego con los elementos de la interfaz gráfica para que se activen/desactiven las imágenes en respuesta a las acciones del jugador.
+5. Pruebas y refinamiento: Probar el juego, corregir errores y mejorar la interfaz para una mejor experiencia de usuario.
+6. Documentación y entrega: Preparar la documentación necesaria y entregar el proyecto con el código fuente y los archivos requeridos.
+
+Consideraciones adicionales:
+
+- Organización del código para que sea legible y modular.
+- Utilizar funciones para tareas repetitivas o lógica compleja.
+- Implementar un enfoque orientado a objetos si es adecuado para mejorar la estructura del código.
+- Asegurarse de manejar excepciones y errores.
+- Implementar el sistema de bonificaciones para obtener puntajes adicionales.
+
+En resumen, el proyecto implica una combinación de lógica de programación, diseño de interfaz gráfica y manejo de eventos para crear un juego interactivo de búsqueda de parejas.
+
 Pseudocodigo Facil.py
 Procedimiento SeleccionarCarta(boton, lbl_imagen, lbl_victoria):
     // Obtener número de carta desde la entrada
