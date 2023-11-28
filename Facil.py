@@ -7,6 +7,7 @@ gi.require_version("Gtk", "3.0")
 class Form_facil(Gtk.Window):
     def __init__(self, form_instance):
         super().__init__(title="Busca mi pareja")
+        self.player_name = self.form_instance.player_name
 
         self.set_default_size(640, 800)
         # Establecer la posición de la ventana en el centro
@@ -163,7 +164,7 @@ class Form_facil(Gtk.Window):
                                 print(current_report_state)
                                 if current_report_state == True:
                                     text = f"""
-Resultados de la partida en nivel Fácil:
+Resultados de la partida en nivel Fácil, Jugador {self.player_name}:
 Intentos totales: {self.intentos_exitosos + self.intentos_fallidos}
 Intentos fallidos: {self.intentos_fallidos}
 Intentos exitosos: {self.intentos_exitosos}
